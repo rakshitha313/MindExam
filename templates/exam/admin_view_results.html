@@ -1,0 +1,68 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Outcome Directory Header -->
+<div style="margin-bottom: 3rem; animation: fadeIn 0.8s ease-out;">
+    <h2 style="font-family: 'Outfit'; font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -1px;">Candidate Outcome Directory</h2>
+    <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">Institutional oversight of academic resolutions, credentialing data, and session integrity management.</p>
+</div>
+
+<!-- Glassmorphism Data Grid -->
+<div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: slideUp 0.8s ease-out;">
+    <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; text-align: left;">
+        <thead>
+            <tr style="background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Candidate Unit</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Module Track</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Resolution Marks</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Session Date</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: right;">Integrity Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <td style="padding: 1.5rem;">
+                    <div style="font-weight: 700; color: white; font-size: 1.05rem;">{{ r.student }}</div>
+                    <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.3rem;">Primary Enrollee</div>
+                </td>
+                <td style="padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; color: #94a3b8;">
+                        <ion-icon name="bookmarks-outline" style="color: #6366f1;"></ion-icon>
+                        <span style="font-size: 0.9rem; font-weight: 600;">{{ r.exam }}</span>
+                    </div>
+                </td>
+                <td style="padding: 1.5rem;">
+                    <div style="font-weight: 800; color: #10b981; font-family: 'Outfit'; font-size: 1.2rem;">{{ r.marks }} <small style="color: #64748b; font-weight: 500; font-size: 0.7rem;">PTS</small></div>
+                </td>
+                <td style="padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #64748b;">
+                        <ion-icon name="calendar-outline"></ion-icon>
+                        <span style="font-size: 0.9rem;">{{ r.date }}</span>
+                    </div>
+                </td>
+                <td style="padding: 1.5rem; text-align: right;">
+                    <a href="{% url 'admin-reset-exam' r.id %}" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='rgba(239, 68, 68, 0.2)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.transform='translateY(0)'" onclick="return confirm('Confirm session reset? Operation is irreversible.');">
+                        <ion-icon name="refresh-outline"></ion-icon> Reset Attempt
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="padding: 5rem; text-align: center;">
+                    <div style="opacity: 0.1; font-size: 4rem; margin-bottom: 1rem;"><ion-icon name="cellular-outline"></ion-icon></div>
+                    <div style="font-weight: 700; color: #475569; font-size: 1.1rem;">No candidate resolutions recorded in this directory.</div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+{% endblock content %}

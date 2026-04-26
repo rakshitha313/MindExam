@@ -1,0 +1,161 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    :root {
+        --glass-bg: rgba(15, 23, 42, 0.4);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --accent-indigo: #6366f1;
+        --accent-emerald: #10b981;
+        --accent-amber: #f59e0b;
+        --accent-rose: #f43f5e;
+    }
+
+    .masterbox { animation: fadeIn 0.8s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-banner {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1)), var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 28px;
+        padding: 4rem 2rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-badge {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--accent-emerald);
+        padding: 0.5rem 1.2rem;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+        display: inline-block;
+    }
+
+    .point-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        transition: 0.3s;
+    }
+
+    .point-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.03);
+    }
+
+    .point-number {
+        font-family: 'Outfit';
+        font-size: 3rem;
+        font-weight: 900;
+        color: rgba(255,255,255,0.05);
+        line-height: 1;
+        margin-bottom: -1rem;
+    }
+
+    .point-title {
+        font-family: 'Outfit';
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+
+    .point-text {
+        color: #94a3b8;
+        line-height: 1.7;
+        font-size: 1.05rem;
+    }
+
+    .cta-button {
+        background: var(--accent-indigo);
+        color: white;
+        text-decoration: none;
+        padding: 1rem 2.5rem;
+        border-radius: 16px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: 0.3s;
+        margin-top: 2rem;
+    }
+
+    .cta-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    }
+</style>
+
+<div class="masterbox">
+    <div class="hero-banner">
+        <div class="hero-badge">Hållbart Resande i Dalarna</div>
+        <h1 style="font-family: 'Outfit'; font-size: 3.5rem; font-weight: 800; color: white; margin-bottom: 1.5rem;">De sista d-punkterna</h1>
+        <p style="color: #94a3b8; font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+            Här kommer den sista delen i vår lilla inläggs-följetong om hållbart resande samt den fjärde advent. 
+            Här får du de sista tre tipsen på hur vi kan förändra vårt resemönster i en mer hållbar riktning.
+        </p>
+    </div>
+
+    <!-- Points Grid -->
+    <div style="max-width: 900px; margin: 0 auto;">
+        
+        <!-- D4 -->
+        <div class="point-card">
+            <div class="point-number">D4</div>
+            <h2 class="point-title">Dela upplevelsen och bo klimatsmart</h2>
+            <p class="point-text">
+                Många boenden i Dalarna jobbar konsekvent med att minska sin belastning på miljön. 
+                Du som gäst kan bidra genom att t.ex. duscha snabbare, inte byta handdukar varje dag och genom att respektera återvinningsrutiner. 
+                Välj gärna boenden som har ett lokalt engagemang och som värnar om orten de verkar på. 
+                Sök efter miljömärkta boenden, de har utvärderats utifrån fastställda kriterier. 
+            </p>
+        </div>
+
+        <!-- D5 -->
+        <div class="point-card" style="border-left: 4px solid var(--accent-amber);">
+            <div class="point-number" style="color: rgba(245, 158, 11, 0.1);">D5</div>
+            <h2 class="point-title" style="color: var(--accent-amber);">Drifta med el</h2>
+            <p class="point-text">
+                Besöker du Dalarna med elbil finns det goda möjligheter för laddning utmed vägarna och hos våra anläggningar. 
+                På <a href="http://www.visitdalarna.se/laddstationer-for-elbil-i-dalarna" style="color: var(--accent-amber); text-decoration: underline;">visitdalarna.se/laddstationer</a> hittar du en karta som är till god hjälp för din resplanering. 
+                Men kom ihåg att det allra mest hållbara resandet sker genom tåg, buss, samåkning eller cykel. 
+            </p>
+        </div>
+
+        <!-- D6 -->
+        <div class="point-card" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="point-number" style="color: rgba(16, 185, 129, 0.1);">D6</div>
+            <h2 class="point-title" style="color: var(--accent-emerald);">Delta, bidra och stötta lokalt</h2>
+            <p class="point-text">
+                Vi som turister har en viktig roll för destinationens sociala och ekonomiska välmående. 
+                Vid ditt visit, välj att gynna de lokala aktörerna såsom mathantverkare och butiker som säljer lokalt hantverk. 
+                Var en "schysst gäst", visa hänsyn mot både miljö och de som lever och bor på platsen. 
+                Allemansrätten ger oss fantastiska möjligheter att vistas i naturen och det förutsätter att vi tar gemensamt ansvar och inte stör eller förstör. 
+            </p>
+        </div>
+
+        <!-- Footer Note -->
+        <div style="text-align: center; padding: 4rem 0; background: rgba(255,255,255,0.02); border-radius: 28px; border: 1px dashed var(--glass-border); margin-top: 4rem;">
+            <ion-icon name="gift-outline" style="font-size: 3rem; color: var(--accent-rose); margin-bottom: 1.5rem;"></ion-icon>
+            <h3 style="font-family: 'Outfit'; font-weight: 800; color: white; margin-bottom: 1rem;">Ha en fin fjärde advent och en riktigt god jul!</h3>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 2rem;">Ulrica Nordström, projektledare på Visit Dalarna.</p>
+            
+            <a href="http://www.visitdalarna.se/hallbart-resande" class="cta-button">
+                Läs mer om hållbart resande <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Faculty Management Header -->
+<div style="margin-bottom: 3.5rem; animation: fadeIn 0.8s ease-out;">
+    <h1 style="font-family: 'Outfit'; font-size: 3rem; font-weight: 800; margin: 0; letter-spacing: -1.5px;">Faculty Management</h1>
+    <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">Oversee faculty credentials, review pending applications, and manage institutional resource allocation.</p>
+</div>
+
+<!-- Faculty Cockpit -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; animation: slideUp 0.8s ease-out;">
+    
+    <!-- Total Approved -->
+   <a href="{% url 'admin-view-teacher' %}"style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(99, 102, 241, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="checkmark-done-circle-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{total_teacher}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Validated Faculty</div>
+    </a>
+
+    <!-- Pending Vetting -->
+    <a href="{% url 'admin-view-pending-teacher' %}" ✅ style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(156, 163, 175, 0.1); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(245, 158, 11, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(156, 163, 175, 0.1)'">
+        <div style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="time-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{pending_teacher}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Vetting Queue</div>
+    </a>
+
+    <!-- Resource Allocation -->
+    <a href="{% url 'admin-view-teacher-salary' %}" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="cash-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">${{salary}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Salary Pool</div>
+    </a>
+
+    <!-- Direct Deployment -->
+    <a href="{% url 'admin-add-teacher' %}" style="text-decoration: none; background: #6366f1; border-radius: 24px; padding: 2rem; transition: 0.3s; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(99, 102, 241, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(99, 102, 241, 0.3)'">
+        <div style="background: rgba(255, 255, 255, 0.2); color: white; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="person-add-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 1.8rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1.2;">Register Faculty</div>
+        <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Institutional Hire</div>
+    </a>
+
+</div>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+{% endblock content %}

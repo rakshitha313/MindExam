@@ -1,0 +1,309 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Available Exams</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f1f5f9;
+}
+
+.header{
+background:linear-gradient(45deg,#4f46e5,#2563eb);
+color:white;
+padding:70px 0;
+text-align:center;
+}
+
+.search-box{
+margin-top:-30px;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.exam-card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.exam-card:hover{
+transform:translateY(-8px);
+}
+
+.exam-meta{
+font-size:14px;
+color:#555;
+}
+
+.section{
+padding:70px 0;
+}
+
+.stats{
+background:#4f46e5;
+color:white;
+padding:60px 0;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<section class="header">
+
+<div class="container">
+
+<h1>Available Exams</h1>
+
+<p>Choose an exam and test your knowledge</p>
+
+</div>
+
+</section>
+
+
+<!-- SEARCH & FILTER -->
+
+<div class="container">
+
+<form method="GET" action="{% url 'exams' %}">
+
+<div class="search-box">
+
+<div class="row g-2">
+
+<div class="col-md-6">
+<input type="text"
+name="search"
+class="form-control"
+placeholder="Search Exams"
+value="{{ request.GET.search }}">
+</div>
+
+<div class="col-md-4">
+<select name="category" class="form-control">
+
+<option value="">Category</option>
+
+<option value="IT Skills"
+{% if request.GET.category == "IT Skills" %}selected{% endif %}>
+IT Skills
+</option>
+
+<option value="Aptitude"
+{% if request.GET.category == "Aptitude" %}selected{% endif %}>
+Aptitude
+</option>
+
+<option value="Academic"
+{% if request.GET.category == "Academic" %}selected{% endif %}>
+Academic
+</option>
+
+</select>
+</div>
+
+<div class="col-md-2">
+
+<button type="submit" class="btn btn-primary w-100">
+Search
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+
+<!-- EXAMS -->
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="text-center mb-5">All Exams</h2>
+
+<div class="row g-4">
+
+{% for exam in exams %}
+
+<div class="col-md-4">
+
+<div class="exam-card">
+
+<h4>{{ exam.course_name }}</h4>
+
+<p class="exam-meta">
+Category: {{ exam.category }}
+</p>
+
+
+
+<p class="exam-meta">
+Total Marks: {{ exam.total_marks }}
+</p>
+
+<p class="exam-meta">
+Questions: {{ exam.total_questions }}
+</p>
+
+<a href="{% url 'start-exam' exam.id %}"
+class="btn btn-primary mt-3 w-100">
+
+View Details
+
+</a>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="col-12 text-center">
+
+<h4>No exams found</h4>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- POPULAR EXAMS -->
+
+<section class="section bg-light">
+
+<div class="container text-center">
+
+<h2 class="mb-5">🔥 Popular Exams</h2>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="exam-card">
+
+<h5>Python Skill Test</h5>
+
+<a href="{% url 'exams' %}?search=python"
+class="btn btn-primary">
+
+Start
+
+</a>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="exam-card">
+
+<h5>Aptitude Challenge</h5>
+
+<a href="{% url 'exams' %}?category=Aptitude"
+class="btn btn-primary">
+
+Start
+
+</a>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="exam-card">
+
+<h5>Logical Reasoning Test</h5>
+
+<a href="{% url 'exams' %}?category=Aptitude"
+class="btn btn-primary">
+
+Start
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section class="stats">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<h2>{{ exams.count }}</h2>
+
+<p>Total Exams</p>
+
+</div>
+
+<div class="col-md-4">
+
+<h2>500+</h2>
+
+<p>Active Students</p>
+
+</div>
+
+<div class="col-md-4">
+
+<h2>72%</h2>
+
+<p>Average Score</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+</body>
+</html>

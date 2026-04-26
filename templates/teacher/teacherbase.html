@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examiner Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+<style>
+:root {
+    --primary: #6366f1;
+    --dark: #020617;
+    --gray: #94a3b8;
+    --sidebar-width: 280px;
+}
+
+/* RESET */
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter';
+}
+
+body {
+    background: var(--dark);
+    color:white;
+}
+
+/* LAYOUT */
+.dashboard-container {
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left:0;
+
+    display:flex;
+    flex-direction:column;
+
+    background:#020617;
+    border-right:1px solid rgba(255,255,255,0.05);
+
+    overflow:hidden;   /* 🔥 IMPORTANT */
+}
+
+/* SCROLL AREA */
+.sidebar-inner {
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;   /* ✅ SCROLL ENABLED */
+    padding:20px;
+}
+
+/* SCROLLBAR */
+.sidebar-inner::-webkit-scrollbar {
+    width:5px;
+}
+.sidebar-inner::-webkit-scrollbar-thumb {
+    background:#6366f1;
+    border-radius:10px;
+}
+
+/* PROFILE */
+.user-profile {
+    text-align:center;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.profile-pic{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #6366f1;
+    display:block;
+    margin:0 auto 10px auto;
+}
+
+.letter-avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:700;
+    color:white;
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    margin:0 auto 10px auto;
+}
+
+.profile-name {
+    font-weight:600;
+}
+
+.profile-role {
+    font-size:0.8rem;
+    color:var(--gray);
+}
+.profile-avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:700;
+    color:white;
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    margin:0 auto 10px auto;
+}
+
+/* NAV */
+.nav-menu {
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.nav-item {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    margin-bottom:8px;
+    color:#9ca3af;
+    text-decoration:none;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.nav-item ion-icon {
+    font-size:18px;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(99,102,241,0.15);
+    color:white;
+}
+
+/* LOGOUT FIX */
+.logout-btn {
+    margin-top:auto;
+    color:#ef4444;
+}
+
+/* MAIN */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height:100vh;
+    padding:2rem;
+}
+
+/* HEADER */
+.top-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.back-nav {
+    color:var(--gray);
+    text-decoration:none;
+}
+
+.back-nav:hover {
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="sidebar-inner">
+
+    <!-- PROFILE -->
+    {% with teacher=request.user.teacher %}
+<div class="user-profile">
+
+    {% if teacher and teacher.profile_pic %}
+        <img src="{{ teacher.profile_pic.url }}" class="profile-pic">
+    {% else %}
+        <div class="letter-avatar">
+            {{ request.user.first_name|default:request.user.username|first|upper }}
+        </div>
+    {% endif %}
+
+    <div class="profile-name">
+        {{ request.user.first_name|default:request.user.username }}
+    </div>
+
+    <div class="profile-role">Examiner Portal</div>
+
+</div>
+{% endwith %}
+
+    <!-- NAV -->
+    <nav class="nav-menu">
+
+        <a href="{% url 'teacher:teacher-dashboard' %}" class="nav-item">
+            <ion-icon name="grid-outline"></ion-icon>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{% url 'teacher:teacher-view-student' %}" class="nav-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>Candidates</span>
+        </a>
+
+        {% comment %} <a href="{% url 'teacher:teacher-add-exam' %}" class="nav-item">
+            <ion-icon name="add-circle-outline"></ion-icon>
+            <span>Create Course</span>
+        </a> {% endcomment %}
+
+        <a href="{% url 'teacher:teacher-view-exam' %}" class="nav-item">
+    <ion-icon name="layers-outline"></ion-icon>
+    <span>All Exams</span>
+</a>
+
+        <a href="{% url 'teacher:create-exam' %}" class="nav-item">
+            <ion-icon name="create-outline"></ion-icon>
+            <span>Create Exam</span>
+        </a>
+
+        <a href="{% url 'teacher:teacher-add-question' %}" class="nav-item">
+            <ion-icon name="help-circle-outline"></ion-icon>
+            <span>New Question</span>
+        </a>
+
+        <a href="{% url 'teacher:teacher-view-question' %}" class="nav-item">
+            <ion-icon name="file-tray-full-outline"></ion-icon>
+            <span>Question Bank</span>
+        </a>
+
+        {% comment %} <a href="{% url 'teacher:teacher-notifications' %}" class="nav-item">
+            <ion-icon name="notifications-outline"></ion-icon>
+            <span>Updates</span>
+        </a> {% endcomment %}
+
+        <a href="{% url 'teacher:teacher-doubts' %}" class="nav-item">
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+            <span>Candidate Inquiries</span>
+        </a>
+
+        <a href="{% url 'teacher:teacher-settings' %}" class="nav-item">
+            <ion-icon name="settings-outline"></ion-icon>
+            <span>Edit Profile</span>
+        </a>
+
+        
+
+        <!-- LOGOUT -->
+        <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button class="nav-item logout-btn" type="submit">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Logout
+    </button>
+</form>
+    </nav>
+
+</div>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<div class="top-header">
+    <a href="javascript:history.back()" class="back-nav">
+        ← Back
+    </a>
+
+    <h3 style="opacity:0.3;">MANAGEMENT CONSOLE</h3>
+</div>
+
+{% block content %}
+{% endblock %}
+
+<footer style="margin-top: 5rem; text-align: center; color: var(--gray); font-size: 0.85rem;">
+    &copy; 2026 Examination Systems
+</footer>
+
+</main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,332 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>MindExam Platform Tour</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+
+body{
+font-family:'Segoe UI',sans-serif;
+background:#f8fafc;
+}
+
+/* HERO */
+
+.hero{
+padding:100px 0;
+text-align:center;
+background:linear-gradient(120deg,#4f46e5,#2563eb);
+color:white;
+}
+
+.hero h1{
+font-size:50px;
+font-weight:700;
+}
+
+/* SECTION */
+
+.section{
+padding:80px 0;
+}
+
+/* CARDS */
+
+.card-box{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:.3s;
+}
+
+.card-box:hover{
+transform:translateY(-8px);
+}
+
+/* STEPS */
+
+.step{
+background:#4f46e5;
+color:white;
+padding:25px;
+border-radius:12px;
+}
+
+/* CTA */
+
+.cta{
+background:#2563eb;
+color:white;
+padding:70px 0;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container">
+
+<h1>Smart Online Assessment Platform</h1>
+
+<p class="mt-3">
+Conduct exams, analyze performance, and improve learning
+with AI-powered tools.
+</p>
+
+<br>
+
+<a href="/student/studentsignup" class="btn btn-light btn-lg">Start Exam</a> <a href="/" class="btn btn-outline-light btn-lg ms-3">Explore Features</a>
+
+</div>
+
+</section>
+
+<!-- PLATFORM OVERVIEW -->
+
+<section class="section">
+
+<div class="container text-center">
+
+<h2 class="mb-5">Platform Overview</h2>
+
+<div class="row">
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>Online Exams</h4>
+<p>Conduct exams securely online with instant evaluation.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>AI Assessment</h4>
+<p>AI-powered tools analyze student performance.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>Performance Tracking</h4>
+<p>Track student progress with detailed reports.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>Exam Preparation</h4>
+<p>Students can practice and prepare before exams.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- EXAM CATEGORIES -->
+
+<section class="section bg-light">
+
+<div class="container text-center">
+
+<h2 class="mb-5">Categories of Tests</h2>
+
+<div class="row">
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>💻 IT Tests</h4>
+<p>Programming and technical skill assessments.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>🧠 Aptitude Tests</h4>
+<p>Logical reasoning and quantitative ability tests.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>🎓 Academic Tests</h4>
+<p>Subject-based exams for school and college.</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-box">
+<h4>🛠 Skill Tests</h4>
+<p>Professional and job-readiness assessments.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="section">
+
+<div class="container text-center">
+
+<h2 class="mb-5">How It Works</h2>
+
+<div class="row">
+
+<div class="col-md-2"><div class="step">1<br>Register</div></div>
+<div class="col-md-2"><div class="step">2<br>Choose Category</div></div>
+<div class="col-md-2"><div class="step">3<br>Attempt Exam</div></div>
+<div class="col-md-2"><div class="step">4<br>Instant Result</div></div>
+<div class="col-md-2"><div class="step">5<br>View Report</div></div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="section bg-light">
+
+<div class="container text-center">
+
+<h2 class="mb-5">Platform Features</h2>
+
+<div class="row">
+
+<div class="col-md-3"><div class="card-box">📝 Online Exams</div></div>
+<div class="col-md-3"><div class="card-box">⏱ Timed Tests</div></div>
+<div class="col-md-3"><div class="card-box">📊 Performance Analytics</div></div>
+<div class="col-md-3"><div class="card-box">🏆 Leaderboard Ranking</div></div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- AI TOOL -->
+
+<section class="section">
+
+<div class="container text-center">
+
+<h2 class="mb-4">AI Assessment Tool</h2>
+
+<p>
+Our AI-enabled system analyzes student exam results and
+identifies strengths and weak areas to help improve learning.
+</p>
+
+</div>
+
+</section>
+
+<!-- BENEFITS -->
+
+<section class="section bg-light">
+
+<div class="container text-center">
+
+<h2 class="mb-5">Benefits</h2>
+
+<div class="row">
+
+<div class="col-md-4">
+<div class="card-box">
+<h4>Students</h4>
+<p>Practice exams anytime and improve weak subjects.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card-box">
+<h4>Teachers</h4>
+<p>Create exams easily and track student performance.</p>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card-box">
+<h4>Institutions</h4>
+<p>Conduct large-scale online assessments efficiently.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SCREENSHOTS -->
+
+<section class="section">
+
+<div class="container text-center">
+
+<h2 class="mb-5">Platform Preview</h2>
+
+<div class="row">
+
+<div class="col-md-4">
+<img src="{% static 'image/student-dash.png' %}" class="img-fluid">
+<p>Student Dashboard</p>
+</div>
+
+<div class="col-md-4">
+<img src="{% static 'image/teacher-dash.png' %}" class="img-fluid">
+<p>Teacher Dashboard</p>
+</div>
+
+<div class="col-md-4">
+<img src="{% static 'image/exam_interface.png' %}" class="img-fluid">
+<p>Exam Interface</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CALL TO ACTION -->
+
+<section class="cta">
+
+<div class="container">
+
+<h2>Ready to start your learning journey?</h2>
+
+<br>
+
+<a href="/student/studentsignup" class="btn btn-light btn-lg">Sign Up Now</a> <a href="/category" class="btn btn-outline-light btn-lg ms-3">Explore Exams</a>
+
+</div>
+
+</section>
+
+</body>
+</html>

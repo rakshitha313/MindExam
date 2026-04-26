@@ -1,0 +1,273 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+
+/* ===== BACKGROUND ===== */
+body {
+    background: radial-gradient(circle at 10% 20%, #1e293b, #020617);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+html {
+    overflow: hidden;
+}
+
+/* REMOVE SIDEBAR SPACE */
+.main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+/* CENTER LAYOUT */
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidebar {
+    display: none !important;
+}
+
+/* GLASS CARD */
+.card {
+    width: 90%;
+    max-width: 1000px;
+    padding: 40px;
+    border-radius: 25px;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+    from {opacity:0; transform: translateY(30px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* TITLE */
+.title {
+    text-align: center;
+    color: white;
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.subtitle {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 30px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+/* STAT CARD */
+.stat {
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    transition: 0.3s;
+}
+
+.stat:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(99,102,241,0.3);
+}
+
+.value {
+    font-size: 22px;
+    color: white;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* ATTEMPT RING */
+.ring-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,0.08);
+    border-top: 6px solid #6366f1;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* RULES */
+.rules {
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.02);
+    border-left: 4px solid #6366f1;
+}
+
+.rules p {
+    color: #cbd5f5;
+    margin: 8px 0;
+}
+
+/* WARNING */
+.warning {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(244,63,94,0.1);
+    color: #f43f5e;
+    text-align: center;
+}
+
+/* BUTTON */
+.start-btn {
+    margin-top: 30px;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(to right,#6366f1,#8b5cf6);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(99,102,241,0.4);
+}
+
+/* COUNTDOWN */
+.countdown {
+    display: none;
+    text-align: center;
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+    margin-top: 15px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+</style>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+<div class="card">
+
+<div class="title">{{ exam.exam_name }}</div>
+<div class="subtitle">{{ course.course_name }}</div>
+
+<div class="grid">
+
+<div class="stat">
+    <div class="value">{{ total_questions }}</div>
+    <div class="label">Questions</div>
+</div>
+
+<div class="stat">
+    <div class="value">{{ exam.duration }} Min</div>
+    <div class="label">Time</div>
+</div>
+
+<div class="stat">
+    <div class="value">{{ exam.pass_marks }}</div>
+    <div class="label">Pass Marks</div>
+</div>
+
+<div class="stat">
+    <div class="ring-wrap">
+        <div class="ring"></div>
+    </div>
+    <div class="value">{{ attempts_left }}</div>
+    <div class="label">Attempts Left</div>
+</div>
+
+</div>
+
+<div class="rules">
+<p>🔒 Switching tabs auto-submits</p>
+<p>🎲 Questions randomized</p>
+<p>⏱ Cannot pause exam</p>
+</div>
+
+<div class="warning">
+⚠ Once started, exam cannot restart
+</div>
+
+<div id="countdown" class="countdown">3</div>
+
+{% if attempts_left > 0 %}
+<button class="start-btn" onclick="startExam()">🚀 Start Exam</button>
+{% else %}
+<div class="warning">❌ No attempts left</div>
+{% endif %}
+
+</div>
+</div>
+
+<script>
+
+function startExam(){
+    let btn = document.querySelector(".start-btn");
+    let cd = document.getElementById("countdown");
+
+    btn.style.display = "none";
+    cd.style.display = "block";
+
+    let count = 3;
+
+    let t = setInterval(()=>{
+        cd.innerText = count;
+        count--;
+
+        if(count < 0){
+            clearInterval(t);
+
+            // FULLSCREEN
+            document.documentElement.requestFullscreen();
+
+            // REDIRECT
+           window.location.href = "{% url 'student:start_exam' exam.id %}";
+        }
+    },1000);
+}
+
+</script>
+
+{% endblock %}

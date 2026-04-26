@@ -1,0 +1,113 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<style>
+    .card-container {
+        max-width: 600px;
+        margin: 60px auto;
+        padding: 2.5rem;
+        background: rgba(15, 23, 42, 0.85);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        backdrop-filter: blur(15px);
+        color: #e2e8f0;
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .card-container h2 {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #ffffff;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        background: #020617;
+        color: #fff;
+        transition: 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 8px rgba(99,102,241,0.6);
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(99,102,241,0.4);
+    }
+
+    .back-btn {
+        display: block;
+        margin-top: 15px;
+        text-align: center;
+        color: #94a3b8;
+        text-decoration: none;
+    }
+
+    .back-btn:hover {
+        color: #6366f1;
+    }
+
+    @keyframes fadeIn {
+        from {opacity:0; transform:translateY(10px);}
+        to {opacity:1; transform:translateY(0);}
+    }
+</style>
+
+<div class="card-container">
+    <h2>✏️ Edit Course</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Course Name -->
+        <div class="form-group">
+            <label>Course Name</label>
+            {% render_field courseForm.course_name class="form-control" %}
+        </div>
+
+        <!-- Course Code -->
+        <div class="form-group">
+            <label>Course Code</label>
+            {% render_field courseForm.exam_code class="form-control" %}
+        </div>
+
+        <button type="submit" class="btn-submit">Update Course</button>
+    </form>
+
+    <!-- Back Button -->
+    <a href="{% url 'teacher:teacher-manage-course' %}" class="back-btn">
+        ← Back to Courses
+    </a>
+</div>
+
+{% endblock content %}

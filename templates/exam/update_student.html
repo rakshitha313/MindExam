@@ -1,0 +1,99 @@
+{% extends 'exam/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<style>
+  input[type=text], select, input[type=number], input[type=password], textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<br><br>
+<h2 style="text-align:center;">Update Student</h2>
+
+<div>
+
+  <form method="post" enctype="multipart/form-data"
+        style="margin-left:200px;margin-right:200px;">
+
+    {% csrf_token %}
+
+    <!-- ✅ AVATAR ADDED (NO UI CHANGE) -->
+    <div style="text-align:center; margin-bottom:20px;">
+
+        {% if studentForm.instance.profile_pic %}
+            <img src="{{ studentForm.instance.profile_pic.url }}"
+                 style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+        {% else %}
+            <div style="
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                background:#4CAF50;
+                color:white;
+                font-size:40px;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                margin:auto;
+                font-weight:bold;
+            ">
+                {{ userForm.first_name.value|default:""|first|upper }}
+                {{ userForm.last_name.value|default:""|first|upper }}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <label>First Name</label>
+    {% render_field userForm.first_name class="form-control" %}
+
+    <label>Last Name</label>
+    {% render_field userForm.last_name class="form-control" %}
+
+    <label>Username</label>
+    {% render_field userForm.username class="form-control" %}
+
+    <label>Password (leave blank if not changing)</label>
+    {% render_field userForm.password class="form-control" %}
+
+    <label>Confirm Password</label>
+    {% render_field userForm.confirm_password class="form-control" %}
+
+    <label>USN</label>
+    {% render_field studentForm.usn class="form-control" %}
+
+    <label>Mobile</label>
+    {% render_field studentForm.mobile class="form-control" %}
+
+    <label>Address</label>
+    {% render_field studentForm.address class="form-control" %}
+
+    <label>Profile Picture</label>
+    {% render_field studentForm.profile_pic class="form-control" %}
+
+    <input type="submit" value="Update">
+
+  </form>
+</div>
+
+<br><br>
+{% endblock %}

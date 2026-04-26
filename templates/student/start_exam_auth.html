@@ -1,0 +1,77 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.start-container{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.card{
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+</style>
+
+<div class="start-container">
+    <div class="card p-4" style="width:420px;">
+        
+        <h3 class="text-center mb-3">Start Exam</h3>
+        <p class="text-center text-muted">Enter details to begin</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Exam Code -->
+            <div class="mb-3">
+                <input type="text" name="exam_code" class="form-control"
+                       placeholder="Exam Code" required>
+            </div>
+
+            <!-- Username -->
+            <div class="mb-3">
+                <input type="text" name="username" class="form-control"
+                       placeholder="Username" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <input type="password" name="password" id="password"
+                       class="form-control" placeholder="Password" required>
+                <i class="fa fa-eye position-absolute"
+                   style="top:12px; right:15px; cursor:pointer;"
+                   onclick="togglePassword()"></i>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Start Exam
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+function togglePassword(){
+    let password = document.getElementById("password");
+
+    if(password.type === "password"){
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}
+</script>
+
+{% endblock %}

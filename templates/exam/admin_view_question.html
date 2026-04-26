@@ -1,0 +1,63 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Question Repository Header -->
+<div style="margin-bottom: 3rem; animation: fadeIn 0.8s ease-out;">
+    <h2 style="font-family: 'Outfit'; font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -1px;">Institutional Item Bank</h2>
+    <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">Granular oversight of assessment components, validation logic, and intellectual property assets.</p>
+</div>
+
+<!-- Glassmorphism Data Grid -->
+<div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: slideUp 0.8s ease-out;">
+    <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; text-align: left;">
+        <thead>
+            <tr style="background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; width: 35%;">Assessment Item</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Option Architecture</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: center;">Validation</th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: center;">Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for q in questions %}
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <td style="padding: 1.5rem;">
+                    <div style="font-weight: 700; color: white; line-height: 1.5;">{{ q.question }}</div>
+                    <div style="font-size: 0.7rem; color: #6366f1; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Item-ID: SE-{{ q.id }}</div>
+                </td>
+                <td style="padding: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+                        <div style="color: #94a3b8;"><span style="color: #6366f1; font-weight: 800;">A:</span> {{ q.option1 }}</div>
+                        <div style="color: #94a3b8;"><span style="color: #6366f1; font-weight: 800;">B:</span> {{ q.option2 }}</div>
+                        <div style="color: #94a3b8;"><span style="color: #6366f1; font-weight: 800;">C:</span> {{ q.option3 }}</div>
+                        <div style="color: #94a3b8;"><span style="color: #6366f1; font-weight: 800;">D:</span> {{ q.option4 }}</div>
+                    </div>
+                </td>
+                <td style="padding: 1.5rem; text-align: center;">
+                    <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        <ion-icon name="checkmark-circle"></ion-icon> {{ q.answer }}
+                    </span>
+                </td>
+                <td style="padding: 1.5rem; text-align: center;">
+                    <div style="font-weight: 800; color: white; font-family: 'Outfit'; font-size: 1.1rem;">{{ q.marks }}</div>
+                    <div style="font-size: 0.65rem; color: #64748b; font-weight: 500; text-transform: uppercase;">Points</div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if not questions %}
+    <div style="padding: 5rem; text-align: center;">
+        <div style="opacity: 0.2; font-size: 4rem; margin-bottom: 1rem;"><ion-icon name="file-tray-full-outline"></ion-icon></div>
+        <div style="font-weight: 700; color: #64748b; font-size: 1.1rem;">No assessment items found in the repository.</div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+{% endblock content %}

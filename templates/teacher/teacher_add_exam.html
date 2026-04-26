@@ -1,0 +1,191 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div style="max-width: 800px; margin: 0 auto; animation: slideUp 0.8s ease;">
+
+    <!-- HEADER -->
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <div class="badge">Course Creation</div>
+
+        <h1 class="title">Create New Course</h1>
+
+        <p class="subtitle">
+            Initialize a new course and define its exam parameters.
+        </p>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="card">
+        <form method="POST" id="courseForm">
+            {% csrf_token %}
+            
+            <!-- COURSE NAME -->
+            <div class="form-group">
+                <label>Course Name</label>
+                {% render_field courseForm.course_name class="premium-input" placeholder="e.g. Advanced Python Systems" %}
+            </div>
+
+            <!-- COURSE CODE -->
+            <div class="form-group">
+                <label>Course Code</label>
+                {% render_field courseForm.exam_code class="premium-input" placeholder="e.g. PY101, CS202" %}
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit" class="submit-btn">
+                <ion-icon name="add-circle-outline"></ion-icon>
+                Create Course
+            </button>
+        </form>
+    </div>
+
+    <!-- ✅ DJANGO MESSAGE -->
+    {% if messages %}
+        {% for message in messages %}
+            <div style="margin-top:15px; padding:12px; background:#10b981; color:white; border-radius:10px; text-align:center;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- ✅ VIEW COURSES BUTTON -->
+   
+      <div style="width:100%; display:flex; justify-content:center; margin-top:30px;">
+    <a href="{% url 'teacher:teacher-manage-course' %}" 
+       style="background:#22c55e; padding:14px 30px; border-radius:14px; color:white; text-decoration:none; font-weight:700; box-shadow:0 8px 20px rgba(0,0,0,0.3);">
+       📚 View Courses
+    </a>
+</div>
+
+</div>
+
+<!-- SUCCESS TOAST -->
+<div id="successToast" class="toast">
+    <ion-icon name="checkmark-circle"></ion-icon>
+    Course Created Successfully!
+</div>
+
+<!-- STYLES -->
+<style>
+
+.badge {
+    background: rgba(99,102,241,0.1);
+    color: #6366f1;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    display:inline-block;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 2.8rem;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #64748b;
+}
+
+.card {
+    background: rgba(15,23,42,0.6);
+    padding: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display:block;
+    margin-bottom:8px;
+    color:#94a3b8;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.premium-input {
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.03);
+    color:white;
+    transition:0.3s;
+}
+
+.premium-input:focus {
+    border-color:#6366f1;
+    box-shadow:0 0 10px rgba(99,102,241,0.3);
+}
+
+.submit-btn {
+    width:100%;
+    background:#6366f1;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    color:white;
+    font-weight:700;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* TOAST */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #10b981;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 0.4s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ANIMATION */
+@keyframes slideUp {
+    from {opacity:0; transform:translateY(30px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+</style>
+
+<!-- SCRIPT -->
+<script>
+document.getElementById("courseForm").addEventListener("submit", function(){
+
+    let toast = document.getElementById("successToast");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+
+});
+</script>
+
+{% endblock %}

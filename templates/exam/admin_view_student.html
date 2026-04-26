@@ -1,0 +1,72 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<div style="margin-bottom: 3rem;">
+    <h2 style="font-family: 'Outfit'; font-size: 2.5rem; font-weight: 800;">Candidate Directory</h2>
+    <p style="color: #64748b;">All active candidates.</p>
+</div>
+
+<div style="background: rgba(15, 23, 42, 0.6); border-radius: 30px; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; color: #cbd5e1;">
+        <thead>
+            <tr>
+                <th style="padding: 1.5rem;">Candidate</th>
+                <th style="padding: 1.5rem;">Contact</th>
+                <th style="padding: 1.5rem;">Address</th>
+                <th style="padding: 1.5rem; text-align: right;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for t in students %}
+            <tr>
+                <td style="padding: 1.5rem;">
+                   {{ t.user.username }}
+                </td>
+
+                <td style="padding: 1.5rem;">
+                    {{ t.mobile }}
+                </td>
+
+                <td style="padding: 1.5rem;">
+                    {{ t.address }}
+                </td>
+
+                <td style="padding: 1.5rem; text-align: right;">
+    <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
+
+        <!-- Analytics -->
+        <a href="{% url 'admin-view-marks' t.id %}" 
+   style="background: rgba(255, 255, 255, 0.05); color: white; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; transition: 0.3s; display: flex; align-items: center; gap: 0.5rem;"
+   onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.transform='translateY(-2px)'"
+   onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'">
+    <ion-icon name="bar-chart-outline"></ion-icon> Analytics
+</a>
+
+        <!-- Update -->
+        <a href="{% url 'update-student' t.id %}"
+           style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+            <ion-icon name="settings-outline"></ion-icon> Configure
+        </a>
+
+        <!-- Delete -->
+        <a href="{% url 'delete-student' t.id %}"
+           style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;"
+           onclick="return confirm('Confirm delete?');">
+            <ion-icon name="trash-outline"></ion-icon> Delete
+        </a>
+
+    </div>
+</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not students %}
+        <p style="padding: 2rem;">No students found</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

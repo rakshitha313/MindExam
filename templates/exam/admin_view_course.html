@@ -1,0 +1,142 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<div style="margin-bottom: 3rem; animation: fadeIn 0.8s ease-out;">
+    <h2 style="font-family: 'Outfit'; font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: -1px;">
+        Institutional Master Tracks
+    </h2>
+    <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">
+        Strategic oversight of certification tracks, branches, and credentialing structures.
+    </p>
+</div>
+
+<div style="display:flex; justify-content:flex-end; margin-bottom:20px;">
+    <a href="{% url 'admin-add-course' %}"
+       style="background:#6366f1; color:white; padding:12px 20px; border-radius:12px; text-decoration:none; font-weight:700;">
+        ➕ Add Course
+    </a>
+</div>
+
+<div style="
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.8s ease-out;
+">
+    <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; text-align: left;">
+        <thead>
+            <tr style="background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">
+                    Course Name
+                </th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">
+                    Course Code
+                </th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">
+                    Branch
+                </th>
+                <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: right;">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for t in courses %}
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.02)'"
+                onmouseout="this.style.background='transparent'">
+
+                <td style="padding: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1.2rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: #6366f1; display: flex; align-items: center; justify-content: center;">
+                            <ion-icon name="book-outline" style="font-size: 1.4rem;"></ion-icon>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; color: white; font-size: 1.1rem;">
+                                {{ t.course_name }}
+                            </div>
+                            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                                Curriculum Track
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td style="padding: 1.5rem; font-family: 'Outfit';">
+                    <span style="background: rgba(255, 255, 255, 0.05); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 700; color: white;">
+                        {% if t.course_code %}
+                            {{ t.course_code }}
+                        {% else %}
+                            {{ t.exam_code }}
+                        {% endif %}
+                    </span>
+                </td>
+
+                <td style="padding: 1.5rem;">
+                    {% if t.branch %}
+                        <span style="background: rgba(16, 185, 129, 0.12); color: #10b981; padding: 0.45rem 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700;">
+                            {{ t.branch.name }}
+                        </span>
+                    {% else %}
+                        <span style="color: #64748b; font-size: 0.85rem;">
+                            Not Assigned
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td style="padding: 1.5rem; text-align: right;">
+                    <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+
+                        {% for exam in t.exams %}
+                            <a href="{% url 'admin-view-question' exam.id %}"
+                               style="background: rgba(255,255,255,0.05); color:white; padding:6px 12px; border-radius:8px; text-decoration:none;">
+                                {{ exam.exam_name }} → Inspect
+                            </a>
+                        {% empty %}
+                            <span style="color: #64748b;">No exams</span>
+                        {% endfor %}
+
+                        <a href="{% url 'delete-course' t.id %}"
+                           style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; transition: 0.3s;"
+                           onclick="return confirm('⚠️ Are you sure you want to delete this course?\n\nAll exams and questions will also be deleted!');">
+                           🗑️ Delete
+                        </a>
+
+                    </div>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not courses %}
+    <div style="padding: 5rem; text-align: center;">
+        <div style="opacity: 0.2; font-size: 4rem; margin-bottom: 1rem;">
+            <ion-icon name="library-outline"></ion-icon>
+        </div>
+        <div style="font-weight: 700; color: #64748b; font-size: 1.1rem;">
+            No certification tracks initialized.
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+{% endblock content %}

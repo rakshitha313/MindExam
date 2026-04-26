@@ -1,0 +1,15 @@
+{% extends 'exam/adminbase.html' %}
+{% block content %}
+
+<h2>Update Profile</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="first_name" value="{{ request.user.first_name }}" placeholder="First Name"><br><br>
+    <input type="text" name="last_name" value="{{ request.user.last_name }}" placeholder="Last Name"><br><br>
+    <input type="email" name="email" value="{{ request.user.email }}" placeholder="Email"><br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+{% endblock %}

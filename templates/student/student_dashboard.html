@@ -1,0 +1,253 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+/* ========== HERO ========== */
+.hero {
+    background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(139,92,246,0.25));
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ========== STATS ========== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* ========== CARD ========== */
+.card {
+    background: rgba(15, 23, 42, 0.7);
+    padding: 20px;
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* ========== STAT ICON ========== */
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* ========== PROGRESS BAR ========== */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+}
+
+/* ========== GRID ========== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ========== EXAMS ========== */
+.exam-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+    margin-bottom: 12px;
+
+    border-radius: 14px;
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255,255,255,0.05);
+
+    transition: 0.3s;
+}
+
+.exam-item:hover {
+    transform: scale(1.02);
+    background: rgba(51, 65, 85, 0.9);
+}
+
+.exam-info h4 {
+    margin: 0;
+}
+
+.exam-info p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* ========== BUTTON ========== */
+.start-btn {
+    padding: 7px 15px;
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.start-btn:hover {
+    opacity: 0.85;
+}
+
+/* ========== ACTIVITY ITEM ========== */
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 900px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+<!-- HERO -->
+<div class="hero">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+
+        <div>
+            <h2>👋 Hello, {{ request.user.first_name|default:request.user.username }}</h2>
+
+<p style="color:#94a3b8;">
+    🎓 Institution:
+    <strong style="color:#fff;">
+        {{ institution_name }}
+    </strong>
+</p>
+
+<p style="color:#cbd5f5;">Welcome back — ready to ace your exams?</p>
+        </div>
+
+        <a href="{% url 'student:student-exam' %}" class="start-btn">
+            🚀 Exams
+        </a>
+
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+
+    <div class="card">
+        <div class="stat-icon">📘</div>
+        <h4>Units</h4>
+        <h2>{{ total_attempted }}</h2>
+    </div>
+
+    <div class="card">
+        <div class="stat-icon">📊</div>
+        <h4>Average</h4>
+        <h2>{{ avg_score|default:"0" }}%</h2>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ avg_score|default:'0' }}%;"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="stat-icon">🏆</div>
+        <h4>Best</h4>
+        <h2>{{ highest_score|default:"0" }}%</h2>
+    </div>
+
+    <div class="card">
+        <div class="stat-icon">🌍</div>
+        <h4>Rank</h4>
+        <h2>#{{ rank|default:"1" }}</h2>
+    </div>
+
+</div>
+
+<!-- GRID -->
+<div class="dashboard-grid">
+
+    <!-- RECENT -->
+    <div class="card">
+        <h3>Recent Activity</h3>
+
+        {% for result in recent_results|slice:":5" %}
+            <div class="activity-item">
+                <span>{{ result.exam.exam_name }}</span>
+                <strong>{{ result.marks }} Marks</strong>
+            </div>
+        {% empty %}
+            <p>No activity yet</p>
+        {% endfor %}
+    </div>
+<div class="card">
+        <h3>Upcoming Exams</h3>
+
+        {% for exam in upcoming_exams %}
+            <div class="exam-item">
+
+                <div class="exam-info">
+                    <h4>{{ exam.exam_name }}</h4>
+                    <p>🕒 Starts: {{ exam.start_time }}</p>
+                    <p>⏱ {{ exam.duration }} mins • ❓ {{ exam.total_questions }} Qs</p>
+                </div>
+
+                <a href="{% url 'student:take_exam' exam.id %}" class="start-btn">
+                    Start
+                </a>
+
+            </div>
+        {% empty %}
+            <p>No upcoming exams</p>
+        {% endfor %}
+    </div>
+    <!-- EXAMS -->
+    <div class="card">
+        <h3>Available Exams</h3>
+
+        {% for exam in upcoming_exams %}
+            <div class="exam-item">
+
+                <div class="exam-info">
+                    <h4>{{ exam.exam_name }}</h4>
+                    <p>⏱ {{ exam.duration }} mins • ❓ {{ exam.total_questions }} Qs</p>
+                </div>
+
+                <a href="{% url 'student:take_exam' exam.id %}" class="start-btn">
+                    Start
+                </a>
+
+            </div>
+        {% empty %}
+            <p>No exams available</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

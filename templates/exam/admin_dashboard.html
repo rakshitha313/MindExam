@@ -1,0 +1,263 @@
+{% extends 'exam/adminbase.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Command Center Hero -->
+<div style="margin-bottom: 3.5rem; animation: fadeIn 0.8s ease-out;">
+    <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.5rem 1.2rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem;">
+        Institutional Oversight
+    </div>
+    <h1 style="font-family: 'Outfit'; font-size: 3.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 1;">Command Center</h1>
+    <p style="color: #64748b; font-size: 1.25rem; margin-top: 0.8rem; max-width: 600px;">Comprehensive management of the academic ecosystem, candidate progression, and faculty deployments.</p>
+</div>
+
+<!-- Quick Stats Cockpit -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; animation: slideUp 0.8s ease-out;">
+    
+    <!-- Students -->
+    <a href="{% url 'admin-student' %}"style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(99, 102, 241, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="people-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{total_student}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Candidates</div>
+    </a>
+
+    <!-- Teachers -->
+    <a href="/admin-teacher" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="pencil-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{total_teacher}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Faculty Units</div>
+    </a>
+
+    <!-- Courses -->
+    <a href="/admin-course" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(245, 158, 11, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="layers-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{total_course}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Active Tracks</div>
+    </a>
+
+    <!-- Questions -->
+    <a href="/admin-question" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(244, 63, 94, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+        <div style="background: rgba(244, 63, 94, 0.1); color: #f43f5e; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+            <ion-icon name="file-tray-full-outline" style="font-size: 1.8rem;"></ion-icon>
+        </div>
+        <div style="font-size: 2.2rem; font-weight: 800; font-family: 'Outfit'; color: white; line-height: 1;">{{total_question}}</div>
+        <div style="color: #64748b; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;">Question Units</div>
+    </a>
+</div>
+<!-- Pending Students -->
+<!-- Pending Students -->
+<div style="margin-top: 4rem;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-family:'Outfit'; font-size:1.8rem; font-weight:800;">
+            Pending Students
+        </h3>
+    </div>
+
+    <form method="POST" action="{% url 'admin-bulk-student-action' %}">
+        {% csrf_token %}
+
+        <!-- TOP BAR -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+
+            <!-- LEFT: Select All + Count -->
+            <div style="display:flex; align-items:center; gap:15px;">
+                <label style="color:white; font-weight:700;">
+                    <input type="checkbox" id="selectAllStudents">
+                    Select All
+                </label>
+
+                <span id="selectedCount" style="color:#94a3b8;">
+                    0 selected
+                </span>
+            </div>
+
+            <!-- RIGHT: Buttons -->
+            <div style="display:flex; gap:10px;">
+                <button id="approveBtn" type="submit" name="action" value="approve"
+    style="background:#10b981; color:white; padding:10px 15px; border:none; border-radius:8px;"
+    disabled>
+    Approve
+</button>
+
+<button id="rejectBtn" type="submit" name="action" value="reject"
+    style="background:#ef4444; color:white; padding:10px 15px; border:none; border-radius:8px;"
+    disabled>
+    Reject
+</button>
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <div style="background: rgba(15, 23, 42, 0.6); border-radius: 20px; overflow: hidden;">
+            <table style="width:100%; border-collapse:collapse;">
+
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th style="padding:15px;">Name</th>
+                        <th style="padding:15px;">USN</th>
+                        <th style="padding:15px;">Email</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in pending_students %}
+                    <tr>
+                        <td style="padding:15px;">
+                            <input type="checkbox" class="studentCheckbox" name="students" value="{{ student.id }}">
+                        </td>
+
+                        <td style="padding:15px;">
+                            {{ student.user.first_name }}
+                        </td>
+
+                        <td style="padding:15px;">
+                            {{ student.usn }}
+                        </td>
+
+                        <td style="padding:15px;">
+                            {{ student.user.email }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align:center; padding:20px;">
+                            No pending students
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            
+        </div>
+
+    </form>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const selectAll = document.getElementById("selectAllStudents");
+    const checkboxes = document.querySelectorAll(".studentCheckbox");
+    const countText = document.getElementById("selectedCount");
+    const approveBtn = document.getElementById("approveBtn");
+    const rejectBtn = document.getElementById("rejectBtn");
+
+    function updateUI() {
+        let checked = document.querySelectorAll(".studentCheckbox:checked").length;
+
+        // Update count
+        countText.innerText = checked + " selected";
+
+        // Enable/Disable buttons
+        const isDisabled = checked === 0;
+
+        approveBtn.disabled = isDisabled;
+        rejectBtn.disabled = isDisabled;
+
+        // Styling
+        approveBtn.style.opacity = isDisabled ? "0.5" : "1";
+        rejectBtn.style.opacity = isDisabled ? "0.5" : "1";
+
+        approveBtn.style.cursor = isDisabled ? "not-allowed" : "pointer";
+        rejectBtn.style.cursor = isDisabled ? "not-allowed" : "pointer";
+    }
+
+    // Select All
+    if (selectAll) {
+        selectAll.addEventListener("change", function () {
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+            updateUI();
+        });
+    }
+
+    // Individual checkbox
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", function () {
+            selectAll.checked = [...checkboxes].every(c => c.checked);
+            updateUI();
+        });
+    });
+
+    // Initial state
+    updateUI();
+});
+</script>
+<!-- Vetting Queue Section -->
+<div style="animation: slideUp 1s ease-out;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+        <div>
+            <h3 style="font-family: 'Outfit'; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">Vetting Queue</h3>
+            <p style="color: #64748b; margin: 0;">Pending assessment registrations requiring administrative validation.</p>
+        </div>
+        <a href="/admin-view-pending-exams" style="color: #6366f1; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+            View Extended Queue <ion-icon name="arrow-forward-outline"></ion-icon>
+        </a>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; text-align: left;">
+            <thead>
+                <tr style="background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                    <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Proposition</th>
+                    <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800;">Curriculum</th>
+                    <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: center;">Valuation</th>
+                    <th style="padding: 1.5rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 800; text-align: right;">Authorization</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exam in pending_exams %}
+                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 1.5rem;">
+                        <div style="font-weight: 700; color: white;">{{ exam.exam_name }}</div>
+                        <div style="font-size: 0.75rem; color: #64748b;">Assigned by FACULTY-AUTH</div>
+                    </td>
+                    <td style="padding: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                            <div style="width: 8px; height: 8px; border-radius: 50%; background: #6366f1;"></div>
+                            <span>{{ exam.course.course_name }}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 1.5rem; text-align: center;">
+                        <span style="background: rgba(255, 255, 255, 0.05); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 700;">{{ exam.total_marks }} Pts</span>
+                    </td>
+                    <td style="padding: 1.5rem; text-align: right;">
+                        <div style="display: flex; gap: 0.8rem; justify-content: flex-end;">
+                            <a href="{% url 'admin-approve-exam' exam.id %}" style="background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; transition: 0.3s; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <ion-icon name="checkmark-circle-outline"></ion-icon> Authenticate
+                            </a>
+                            <a href="{% url 'admin-reject-exam' exam.id %}" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; transition: 0.3s; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <ion-icon name="close-circle-outline"></ion-icon> Reject
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="padding: 4rem; text-align: center;">
+                        <div style="opacity: 0.5; font-size: 3rem; margin-bottom: 1rem;"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
+                        <div style="font-weight: 700; color: #64748b;">Queue clear. No pending administrative actions.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+{% endblock content %}

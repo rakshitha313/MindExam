@@ -1,0 +1,207 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block extra_css %}
+<style>
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; padding: 0 !important; }
+    
+    .review-page {
+        min-height: 100vh;
+        background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
+                    #020617;
+        padding: 4rem 2rem;
+    }
+
+    .review-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .glass-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 32px;
+        padding: 3.5rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .question-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+        transition: 0.3s;
+    }
+
+    .question-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .q-number {
+        color: #6366f1;
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .q-text {
+        font-size: 1.4rem;
+        color: white;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        font-family: 'Outfit';
+    }
+
+    .option-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .option-pill {
+        padding: 1.2rem 2rem;
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .option-pill.correct {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
+        color: #10b981;
+    }
+    .option-pill.wrong {
+    background: rgba(244, 63, 94, 0.1);
+    border-color: #f43f5e;
+    color: #f43f5e;
+}
+
+    .explanation-box {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: rgba(99, 102, 241, 0.05);
+        border-radius: 20px;
+        border-left: 4px solid #6366f1;
+    }
+
+    .explanation-title {
+        color: #6366f1;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+    }
+
+    .explanation-text {
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .btn-premium {
+        padding: 1rem 2.5rem;
+        border-radius: 16px;
+        font-weight: 800;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: 0.3s;
+        background: #6366f1;
+        color: white;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="review-page">
+    <div class="review-container">
+        <div class="header-section">
+            <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.5rem 1.2rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem;">
+                Assessment Review
+            </div>
+            <h1 style="font-family: 'Outfit'; font-size: 3.5rem; font-weight: 800; margin: 0; letter-spacing: -2px;">Mastery Insight</h1>
+            <p style="color: #64748b; font-size: 1.2rem; margin-top: 0.8rem;">Module: <span style="color: white; font-weight: 700;">{{ exam.exam_name }}</span></p>
+        </div>
+
+        {% for q in questions %}
+        <div class="question-item">
+            <div class="q-number">Question {{ forloop.counter }}</div>
+            <div class="q-text">{{ q.question }}</div>
+            
+            <div class="option-grid">
+                {% with selected=answer_dict|get_item:q.id %}
+
+<div class="option-pill
+{% if q.answer == 'option1' %} correct
+{% elif selected == 'option1' %} wrong
+{% endif %}">
+    <span style="opacity: 0.5;">A</span> {{ q.option1 }}
+</div>
+
+<div class="option-pill
+{% if q.answer == 'option2' %} correct
+{% elif selected == 'option2' %} wrong
+{% endif %}">
+    <span style="opacity: 0.5;">B</span> {{ q.option2 }}
+</div>
+
+<div class="option-pill
+{% if q.answer == 'option3' %} correct
+{% elif selected == 'option3' %} wrong
+{% endif %}">
+    <span style="opacity: 0.5;">C</span> {{ q.option3 }}
+</div>
+
+<div class="option-pill
+{% if q.answer == 'option4' %} correct
+{% elif selected == 'option4' %} wrong
+{% endif %}">
+    <span style="opacity: 0.5;">D</span> {{ q.option4 }}
+</div>
+
+{% endwith %}
+            </div>
+
+            {% if q.explanation %}
+            <div class="explanation-box">
+                <div class="explanation-title">Expert Insight</div>
+                <div class="explanation-text">{{ q.explanation }}</div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div style="text-align: center; margin-top: 4rem;">
+            <a href="{% url 'student:check-marks' exam.id %}" class="btn-premium">
+                <ion-icon name="arrow-back-outline"></ion-icon> Back to Performance
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

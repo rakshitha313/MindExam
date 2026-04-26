@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindExam - Modern Online Examination Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <ion-icon name="infinite-outline"></ion-icon>
+            <span>MindExam</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#tour">Tour</a></li>
+            <li><a href="{% url 'pricing' %}">Pricing</a></li> 
+        </ul>
+        <div style="display: flex; gap: 1rem;">
+            <a href="{% url 'login' %}" class="btn secondary-btn">Login</a>
+            <a href="{% url 'login' %}" class="btn primary-btn">Register</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="gradient-text" style="font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Professional Exam Platform</span>
+                <h1 class="hero-title">Conduct Exams <span class="gradient-text">Digitally</span> With Confidence</h1>
+                <p class="hero-subtitle">The most advanced web-based examination platform for schools, universities, and corporate training. Secure, fast, and intelligent.</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="{% url 'login' %}" class="btn primary-btn">
+                        Get Started <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                    <a href="#tour" class="btn secondary-btn">View Demo</a>
+                </div>
+            </div>
+            <div class="hero-visual glass-card" style="flex: 1; height: 500px; margin-left: 4rem; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="text-align: center;">
+                    <ion-icon name="shield-checkmark-outline" style="font-size: 5rem; color: var(--secondary); margin-bottom: 1rem;"></ion-icon>
+                    <h3>Secure Environment</h3>
+                    <p style="color: var(--gray)">Advanced proctoring & AI monitoring</p>
+                </div>
+                <!-- Floating badges -->
+                <div class="glass-card" style="position: absolute; top: 10%; right: 10%; padding: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <ion-icon name="flash-outline" style="color: #fbbf24;"></ion-icon>
+                    <span>99.9% Uptime</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-grid">
+            <div class="feature-card">
+                <ion-icon name="speedometer-outline" style="font-size: 2.5rem; color: #60a5fa; margin-bottom: 1.5rem;"></ion-icon>
+                <h3>Fast Execution</h3>
+                <p style="color: var(--gray)">No lag, even with thousands of concurrent students. Results are calculated instantly.</p>
+            </div>
+            <div class="feature-card">
+                <ion-icon name="lock-closed-outline" style="font-size: 2.5rem; color: #fb7185; margin-bottom: 1.5rem;"></ion-icon>
+                <h3>Secure & Fair</h3>
+                <p style="color: var(--gray)">Browser locking and AI-based behavior analysis ensure exam integrity and fairness.</p>
+            </div>
+            <div class="feature-card">
+                <ion-icon name="analytics-outline" style="font-size: 2.5rem; color: #34d399; margin-bottom: 1.5rem;"></ion-icon>
+                <h3>Deep Analytics</h3>
+                <p style="color: var(--gray)">Detailed insights for teachers into student performance and question difficulty.</p>
+            </div>
+        </section>
+
+        <section id="tour" class="tour-section" style="background: rgba(255,255,255,0.01)">
+            <div class="tour-visual glass-card" style="display: flex; align-items: center; justify-content: center;">
+                 <ion-icon name="play-circle-outline" style="font-size: 4rem; color: var(--primary);"></ion-icon>
+            </div>
+            <div class="tour-text">
+                <h2 style="font-size: 3rem; margin-bottom: 1.5rem;">Platform <span class="gradient-text">Tour</span></h2>
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(79, 70, 229, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <ion-icon name="create-outline" style="font-size: 1.5rem;"></ion-icon>
+                        </div>
+                        <div>
+                            <h4>Easy Authoring</h4>
+                            <p style="color: var(--gray)">Teachers can create complex exams with multiple question types in minutes.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <ion-icon name="desktop-outline" style="font-size: 1.5rem;"></ion-icon>
+                        </div>
+                        <div>
+                            <h4>Responsive Interface</h4>
+                            <p style="color: var(--gray)">Students can attend exams from any device—laptop, tablet, or smartphone.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(236, 72, 153, 0.1); color: #ec4899; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <ion-icon name="ribbon-outline" style="font-size: 1.5rem;"></ion-icon>
+                        </div>
+                        <div>
+                            <h4>Instant Certification</h4>
+                            <p style="color: var(--gray)">Issue automated digital certificates to students immediately upon exam completion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MindExam Platform. Built with ❤️ for Education.</p>
+    </footer>
+</body>
+</html>

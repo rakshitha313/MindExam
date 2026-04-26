@@ -1,0 +1,118 @@
+{% extends 'teacher/teacherbase.html' %}
+
+{% block content %}
+<style>
+    .success-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 32px;
+        padding: 5rem 3rem;
+        text-align: center;
+        max-width: 650px;
+        margin: 4rem auto;
+        animation: scaleIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes scaleIn { 
+        from { opacity: 0; transform: scale(0.9); } 
+        to { opacity: 1; transform: scale(1); } 
+    }
+
+    .success-icon {
+        width: 100px;
+        height: 100px;
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        margin: 0 auto 2.5rem;
+        border: 2px solid rgba(16, 185, 129, 0.2);
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+    }
+
+    .exam-badge {
+        background: rgba(99, 102, 241, 0.1);
+        color: var(--primary);
+        padding: 0.6rem 1.4rem;
+        border-radius: 100px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        display: inline-block;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-top: 3.5rem;
+    }
+
+    .action-btn {
+        padding: 1.1rem 2rem;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 1rem;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: 0.3s;
+    }
+
+    .primary-action {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    .primary-action:hover {
+        background: var(--primary-dark);
+        transform: translateY(-3px);
+    }
+
+    .outline-action {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .outline-action:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<div class="success-card">
+    <div class="success-icon">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </div>
+
+    <div class="exam-badge">Assessment Initialized</div>
+    
+    <h2 style="font-family: 'Outfit'; font-weight: 800; font-size: 2.8rem; margin-bottom: 1rem; letter-spacing: -1.5px; line-height: 1;">Exam Created successfully</h2>
+    <p style="color: #94a3b8; font-size: 1.25rem; margin-bottom: 2.5rem;">Your module <strong>"{{ exam.exam_name }}"</strong> has been deployed to the verification queue.</p>
+
+    <div style="background: rgba(245, 158, 11, 0.05); border-left: 4px solid var(--accent-amber); padding: 1.5rem; border-radius: 12px; text-align: left; margin: 0 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.8rem; color: var(--accent-amber); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">
+            <ion-icon name="hourglass-outline"></ion-icon> Verification Status
+        </div>
+        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5;">The institute will review your assessment parameters shortly. Candidates will be able to access the module once approval is granted.</p>
+    </div>
+
+    <div class="btn-group">
+        <a href="{% url 'teacher:teacher-dashboard' %}" class="action-btn outline-action">
+            <ion-icon name="grid-outline"></ion-icon> Dashboard
+        </a>
+        <a href="{% url 'teacher:teacher-add-question' %}" class="action-btn primary-action">
+            <ion-icon name="add-circle-outline"></ion-icon> Add Questions
+        </a>
+    </div>
+</div>
+{% endblock content %}

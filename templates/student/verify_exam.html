@@ -1,0 +1,42 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height:85vh;">
+    <div class="card p-4" style="width:420px; border-radius:15px;">
+        
+        <h3 class="text-center mb-3">Verify & Start Exam</h3>
+        <p class="text-center text-muted">{{ course.course_name }}</p>
+
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <input type="text" name="exam_code" class="form-control"
+                       placeholder="Exam Code" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" name="username" class="form-control"
+                       placeholder="Username" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" name="password"
+                       class="form-control" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Verify & Start
+            </button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

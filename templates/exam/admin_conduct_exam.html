@@ -1,0 +1,181 @@
+{% extends 'exam/adminbase.html' %}
+{% block content %}
+
+<style>
+
+.page-wrapper{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:85vh;
+background:#f5f7fb;
+}
+
+.exam-card{
+width:650px;
+background:white;
+border-radius:16px;
+padding:45px;
+box-shadow:0 15px 45px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.exam-card:hover{
+transform:translateY(-3px);
+box-shadow:0 18px 50px rgba(0,0,0,0.12);
+}
+
+.page-title{
+font-size:28px;
+font-weight:600;
+margin-bottom:35px;
+color:#2c3e50;
+text-align:center;
+}
+
+.form-label{
+font-weight:500;
+color:#34495e;
+margin-bottom:6px;
+}
+
+.form-control{
+height:48px;
+border-radius:8px;
+border:1px solid #dfe6e9;
+font-size:15px;
+}
+
+.form-control:focus{
+box-shadow:none;
+border-color:#04868f;
+}
+
+.btn-create{
+width:100%;
+height:48px;
+border-radius:8px;
+background:#04868f;
+border:none;
+font-weight:500;
+font-size:16px;
+transition:0.3s;
+color:white;
+}
+
+.btn-create:hover{
+background:#036a72;
+}
+
+.exam-code-box{
+margin-top:35px;
+padding:30px;
+background:#f7f9fc;
+border-radius:12px;
+text-align:center;
+border:1px solid #e8edf3;
+}
+
+.exam-code-title{
+font-size:15px;
+color:#7f8c8d;
+margin-bottom:8px;
+}
+
+.exam-code{
+font-size:36px;
+font-weight:700;
+color:#04868f;
+letter-spacing:4px;
+margin-bottom:10px;
+}
+
+.exam-info{
+font-size:14px;
+color:#95a5a6;
+}
+
+.success-icon{
+font-size:40px;
+margin-bottom:10px;
+}
+
+</style>
+
+
+<div class="page-wrapper">
+
+<div class="exam-card">
+
+<div class="page-title">
+Conduct New Exam
+</div>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="form-group mb-3">
+
+<label class="form-label">Select Course</label>
+
+<select name="course" class="form-control">
+
+{% for c in courses %}
+<option value="{{c.id}}">
+{{c.course_name}}
+</option>
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="form-group mb-4">
+
+<label class="form-label">Exam Duration (minutes)</label>
+
+<input type="number"
+name="duration"
+class="form-control"
+placeholder="Enter exam duration"
+required>
+
+</div>
+
+<button class="btn-create">
+Create Exam
+</button>
+
+</form>
+
+
+{% if exam_code %}
+
+<div class="exam-code-box">
+
+<div class="success-icon">
+✅
+</div>
+
+<div class="exam-code-title">
+Student Exam Code
+</div>
+
+<div class="exam-code">
+{{ exam_code }}
+</div>
+
+<div class="exam-info">
+Share this code with students to allow them to join the exam
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

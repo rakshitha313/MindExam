@@ -1,0 +1,58 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-4">
+
+<h2 class="text-center">Exam: {{ course.course_name }}</h2>
+<hr>
+<p>Total Questions Loaded: {{ questions|length }}</p>
+<form method="post" action="{% url 'calculate-marks' %}">
+{% csrf_token %}
+
+{% for question in questions %}
+
+<div class="card mb-3">
+
+<div class="card-header">
+Question {{ forloop.counter }} ({{ question.marks }} Marks)
+</div>
+
+<div class="card-body">
+
+<p>{{ question.question }}</p>
+
+<label>
+<input type="radio" name="{{ question.id }}" value="Option1" required>
+{{ question.option1 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ question.id }}" value="Option2">
+{{ question.option2 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ question.id }}" value="Option3">
+{{ question.option3 }}
+</label><br>
+
+<label>
+<input type="radio" name="{{ question.id }}" value="Option4">
+{{ question.option4 }}
+</label>
+</div>
+</div>
+
+{% endfor %}
+
+<button type="submit" class="btn btn-success btn-lg btn-block">
+Submit Exam
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

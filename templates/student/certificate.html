@@ -1,0 +1,207 @@
+
+{% load static %}
+{% block extra_css %}
+<style>
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; padding: 0 !important; }
+    
+    .cert-screen {
+        min-height: 100vh;
+        background: #020617;
+        padding: 4rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cert-container {
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        padding: 4rem;
+        position: relative;
+        text-align: center;
+        color: #1e293b;
+        border: 20px solid #1e293b;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        background-image: 
+            radial-gradient(circle at 2px 2px, rgba(0,0,0,0.02) 1px, transparent 0);
+        background-size: 40px 40px;
+        animation: certReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes certReveal {
+        from { opacity: 0; transform: scale(0.95) translateY(20px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .cert-inner-border {
+        border: 2px solid #e2e8f0;
+        padding: 3rem;
+        height: 100%;
+        position: relative;
+    }
+
+    .cert-logo {
+        background: #6366f1;
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+    }
+
+    .cert-title {
+        font-family: 'Outfit';
+        font-size: 1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #6366f1;
+        margin-bottom: 2rem;
+    }
+
+    .cert-header {
+        font-family: 'Outfit';
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 2rem;
+        letter-spacing: -1px;
+    }
+
+    .cert-recipient {
+        font-family: 'Outfit';
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #6366f1;
+        margin: 1.5rem 0;
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 12px;
+    }
+
+    .cert-text {
+        font-size: 1.25rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .cert-course {
+        font-weight: 800;
+        color: #0f172a;
+        font-size: 1.8rem;
+        margin: 2rem 0;
+    }
+
+    .cert-seal {
+        position: absolute;
+        bottom: 80px;
+        right: 80px;
+        width: 120px;
+        height: 120px;
+        opacity: 0.15;
+    }
+
+    .signature-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8rem;
+        margin-top: 6rem;
+        padding: 0 4rem;
+    }
+
+    .signature-line {
+        border-top: 2px solid #cbd5e1;
+        padding-top: 0.8rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .cert-actions {
+        margin-top: 3rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .action-btn {
+        padding: 1rem 2rem;
+        border-radius: 14px;
+        font-weight: 800;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: 0.3s;
+    }
+
+    .btn-dash { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); }
+    .btn-print { background: #6366f1; color: white; border: none; cursor: pointer; }
+
+    @media print {
+        .cert-actions { display: none; }
+        .cert-screen { padding: 0; background: white; }
+        .cert-container { box-shadow: none; border-width: 10px; }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+<div class="cert-screen">
+    <div class="cert-container">
+        <div class="cert-inner-border">
+            <div class="cert-logo">
+                <ion-icon name="infinite-outline" style="color: white; font-size: 2rem;"></ion-icon>
+            </div>
+            
+            <div class="cert-title">Official Certification</div>
+            <div class="cert-header">Credential of Achievement</div>
+            
+            <p class="cert-text">This document formally recognizes that</p>
+            
+            <div class="cert-recipient">{{student.user.first_name}} {{student.user.last_name}}</div>
+            
+            <p class="cert-text">
+                has demonstrated exceptional knowledge and technical proficiency, successfully qualifying in the comprehensive assessment for:
+            </p>
+            
+            <div class="cert-course">{{course.course_name}}</div>
+            
+            <div style="font-size: 1.1rem; font-weight: 700; color: #64748b;">
+                Candidate Score: <span style="color: #6366f1;">{{marks}} Marks Achieved</span>
+            </div>
+
+            <div class="signature-grid">
+                <div>
+                    <div style="font-family: 'Outfit'; font-style: italic; font-size: 1.5rem; margin-bottom: 0.5rem;">Certification Board</div>
+                    <div class="signature-line">Academic Director</div>
+                </div>
+                <div>
+                    <div style="font-family: 'Outfit'; font-style: italic; font-size: 1.5rem; margin-bottom: 0.5rem;">{{ date|date:"M d, Y" }}</div>
+                    <div class="signature-line">Date of Issuance</div>
+                </div>
+            </div>
+
+            <ion-icon name="medal-outline" class="cert-seal"></ion-icon>
+        </div>
+    </div>
+
+    <div class="cert-actions">
+        <a href="{% url 'student:student-dashboard' %}" class="action-btn btn-dash">
+            <ion-icon name="arrow-back-outline"></ion-icon> Return to Dashboard
+        </a>
+        <button onclick="window.print()" class="action-btn btn-print">
+            <ion-icon name="download-outline"></ion-icon> Download Certificate (PDF)
+        </button>
+    </div>
+</div>
+{% endblock %}

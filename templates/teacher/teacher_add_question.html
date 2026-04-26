@@ -1,0 +1,226 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div style="max-width: 900px; margin: 0 auto; animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);">
+
+    <!-- ================= Messages ================= -->
+    {% if messages %}
+    <div style="margin-bottom: 1.5rem;">
+        {% for message in messages %}
+        <div style="padding: 1rem; border-radius: 12px; margin-bottom: 0.8rem;
+                    background: {% if message.tags == 'success' %}#10b981{% else %}#f87171{% endif %};
+                    color: white; font-weight: 600;">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.5rem 1.2rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem;">
+            Assessment Engineering
+        </div>
+        <h1 style="font-family: 'Outfit'; font-size: 3rem; font-weight: 800; margin: 0; letter-spacing: -1.5px;">Universal Question Unit</h1>
+        <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.8rem;">Define complex assessment units with multi-choice parameters and technical explanations.</p>
+    </div>
+
+    <!-- ================= Excel Upload Form ================= -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'teacher:teacher-add-question' %}">
+    {% csrf_token %}
+    <input type="hidden" name="excel_submit" value="1">
+
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
+        
+        <p class="upload-title">Drop Excel file here or click to upload</p>
+        <p class="upload-sub">Supported formats: .xlsx, .xls</p>
+
+        <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" hidden required>
+        <p id="fileName" class="file-name"></p>
+    </div>
+
+    <button type="submit" class="upload-btn">
+        <ion-icon name="flash-outline"></ion-icon>
+        Upload & Process Excel
+    </button>
+</form>
+
+    <!-- ================= Manual Question Form ================= -->
+    <div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 40px; padding: 4rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            <input type="hidden" name="manual_submit" value="1">
+            
+            <!-- Exam & Marks -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <label style="display: block; font-weight: 700; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem;">Assigned Certification Module</label>
+                    {% render_field questionForm.exam class="premium-input" %}
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 700; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem;">Unit Valuation (Marks)</label>
+                    {% render_field questionForm.marks class="premium-input" placeholder="e.g. 5" %}
+                </div>
+            </div>
+
+            <!-- Question -->
+            <div style="margin-bottom: 2.5rem;">
+                <label style="display: block; font-weight: 700; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem;">Question Proposition</label>
+                {% render_field questionForm.question class="premium-input" style="min-height: 100px; resize: vertical;" placeholder="Compose the technical question here..." %}
+            </div>
+
+            <!-- Options -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+
+    <div>
+        <label style="color:#94a3b8;">Option 1</label>
+        {% render_field questionForm.option1 class="premium-input-small" placeholder="Enter option 1" %}
+    </div>
+
+    <div>
+        <label style="color:#94a3b8;">Option 2</label>
+        {% render_field questionForm.option2 class="premium-input-small" placeholder="Enter option 2" %}
+    </div>
+
+    <div>
+        <label style="color:#94a3b8;">Option 3</label>
+        {% render_field questionForm.option3 class="premium-input-small" placeholder="Enter option 3" %}
+    </div>
+
+    <div>
+        <label style="color:#94a3b8;">Option 4</label>
+        {% render_field questionForm.option4 class="premium-input-small" placeholder="Enter option 4" %}
+    </div>
+
+</div>
+            <!-- Answer & Explanation -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 3rem;">
+                <div>{% render_field questionForm.answer class="premium-input" %}</div>
+                <div>{% render_field questionForm.explanation class="premium-input" %}</div>
+            </div>
+
+            <button type="submit" style="width: 100%; background: #10b981; color: white; padding: 1.2rem; border-radius: 18px; font-weight: 800; font-size: 1.1rem; border: none; cursor: pointer;">
+                <ion-icon name="add-circle-outline" style="font-size: 1.5rem;"></ion-icon> Authenticate & Save Question
+            </button>
+        </form>
+    </div>
+
+</div>
+
+
+
+
+<style>
+    .premium-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 1.2rem 1.5rem;
+        color: white;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+    .premium-input:focus {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+    }
+    .premium-input-small {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 0.8rem 1rem;
+        color: white;
+        font-size: 0.95rem;
+        transition: 0.3s;
+    }
+    .premium-input-small:focus {
+        border-color: #6366f1;
+        outline: none;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    select {
+        background-color: #1e293b;
+        color: white;
+        border: 1px solid #475569;
+        padding: 8px;
+        border-radius: 8px;
+    }
+    select option {
+        color: black;
+    }
+    .upload-box {
+    border: 2px dashed rgba(255,255,255,0.15);
+    border-radius: 24px;
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.02);
+}
+
+.upload-box:hover {
+    border-color: #6366f1;
+    background: rgba(99,102,241,0.05);
+    transform: translateY(-2px);
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    color: #6366f1;
+    margin-bottom: 1rem;
+}
+
+.upload-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.upload-sub {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 0.3rem;
+}
+
+.file-name {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.upload-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1.1rem;
+    border-radius: 16px;
+    border: none;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: 0.3s;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(99,102,241,0.4);
+}
+</style>
+<script>
+document.getElementById("fileInput").addEventListener("change", function(){
+    const fileName = this.files[0]?.name || "";
+    document.getElementById("fileName").innerText = fileName;
+});
+</script>
+{% endblock content %}

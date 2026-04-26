@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard</title>
+{% block extra_css %}{% endblock %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+<style>
+
+:root { --sidebar-width: 260px; }
+
+/* 🌙 GLOBAL */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Inter';
+    background: #020617;
+    overflow: auto;
+}
+
+/* LAYOUT */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    
+}
+
+/* 🔥 SIDEBAR */
+.sidebar {
+    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(180deg,#020617,#0f172a);
+    border-right: 1px solid rgba(255,255,255,0.05);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* SCROLLBAR */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 10px;
+}
+
+/* MAIN */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+
+    padding: 2rem;
+    color: white;
+
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* PROFILE */
+.profile-box {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.profile-pic {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6366f1;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-pic:hover {
+    transform: scale(1.08);
+}
+
+/* NAV */
+.nav-menu {
+    margin-top: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    color: #9ca3af;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(99,102,241,0.2);
+    color: white;
+    transform: translateX(6px);
+}
+
+/* LOGOUT */
+.logout {
+    margin-top: 10px;
+    color: #ef4444 !important;
+}
+
+/* 📱 MOBILE MENU BUTTON */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    font-size: 18px;
+    border-radius: 8px;
+    z-index: 3000;
+}
+
+/* OVERLAY */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    color: #9ca3af;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+
+    white-space: nowrap;   /* 🔥 prevents text breaking */
+    width: 100%;           /* 🔥 keeps full width */
+}
+/* IMAGE MODAL */
+#imageModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 4000;
+}
+#modalImg {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 12px;
+}
+.letter-avatar {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+
+    margin: 0 auto 10px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 3px solid #6366f1;
+}
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+
+    .sidebar {
+    width: var(--sidebar-width);
+   height: 100vh;       /* ✅ important */
+    
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(180deg,#020617,#020617,#0f172a);
+    border-right: 1px solid rgba(255,255,255,0.05);
+
+    padding: 20px 15px;
+
+    overflow-y: auto;       /* ✅ scrolling works */
+}
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MENU BUTTON -->
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+ {% block sidebar %}
+<aside class="sidebar">
+
+<div class="profile-box">
+
+    {% if request.user.student.profile_pic %}
+        <img id="profileImage"
+             src="{{ request.user.student.profile_pic.url }}"
+             class="profile-pic">
+    {% else %}
+        <div class="letter-avatar">
+            {{ request.user.first_name|default:request.user.username|first|upper }}
+        </div>
+    {% endif %}
+
+    <h4 style="color:white;">
+        {{ request.user.first_name|default:request.user.username }}
+    </h4>
+
+    <p style="color:#9ca3af; font-size:0.85rem;">Student</p>
+
+</div>
+
+<div class="nav-menu">
+
+<a href="{% url 'student:student-dashboard' %}" class="nav-item">
+<ion-icon name="grid-outline"></ion-icon> Dashboard
+</a>
+
+<a href="{% url 'student:student-exam' %}" class="nav-item">
+<ion-icon name="book-outline"></ion-icon> My Exams
+</a>
+
+<a href="{% url 'student:view-result' %}" class="nav-item">
+<ion-icon name="stats-chart-outline"></ion-icon> My Results
+</a>
+
+<a href="{% url 'student:student-leaderboard' %}" class="nav-item">
+<ion-icon name="trophy-outline"></ion-icon> Leaderboard
+</a>
+
+<a href="{% url 'student:student-doubts' %}" class="nav-item">
+<ion-icon name="help-circle-outline"></ion-icon> Doubt Clarification
+</a>
+
+
+
+<a href="{% url 'student:student-settings' %}" class="nav-item">
+<ion-icon name="settings-outline"></ion-icon> Edit Profile
+</a>
+
+</div>
+
+<a href="{% url 'logout' %}" class="nav-item logout">
+<ion-icon name="log-out-outline"></ion-icon> Logout
+</a>
+
+</aside>
+{% endblock sidebar %}
+
+<!-- OVERLAY -->
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main-content">
+{% block content %}
+{% endblock %}
+</main>
+
+</div>
+
+<!-- IMAGE MODAL -->
+<div id="imageModal">
+    <img id="modalImg">
+</div>
+
+<script>
+
+// ACTIVE LINK
+document.querySelectorAll(".nav-item").forEach(link => {
+    if (window.location.pathname === new URL(link.href).pathname) {
+        link.classList.add("active");
+    }
+});
+
+// SIDEBAR TOGGLE
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("active");
+    document.querySelector(".overlay").classList.toggle("active");
+}
+
+// IMAGE MODAL
+const img = document.getElementById("profileImage");
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+
+if(img){
+    img.onclick = () => {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+    }
+}
+
+modal.onclick = () => modal.style.display = "none";
+
+</script>
+
+</body>
+</html>

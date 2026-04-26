@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Exam Attempt Limit</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+margin-top:80px;
+}
+
+.box{
+width:400px;
+margin:auto;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.warning{
+color:red;
+font-size:20px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>{{ course.course_name }}</h2>
+
+<p class="warning">⚠ Maximum 3 attempts allowed for this exam.</p>
+
+<p>You have already used all attempts.</p>
+
+<br>
+
+<a href="{% url 'check-marks' course.id %}" class="btn btn-success">
+View Your Result
+</a>
+
+<br><br>
+
+<a href="/student/student-dashboard">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

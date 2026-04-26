@@ -1,0 +1,189 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<!-- Hero Management Section -->
+<h4 class="institution">{{ institution }}</h4>
+<div style="margin-bottom: 4rem; animation: fadeIn 0.8s ease-out;">
+    <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.5rem 1.2rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem;">
+        Examiner Dashboard
+    </div>
+    <h1 style="font-family: 'Outfit'; font-size: 3.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; line-height: 1;">Manage Exams Easily</h1>
+    <p style="color: #64748b; font-size: 1.25rem; margin-top: 1rem; max-width: 600px;">
+    Welcome <span style="color: white; font-weight: 700;">{{ request.user.first_name }} {{ request.user.last_name }}</span>. Manage students, exams, and questions from one place.
+</p>
+</div>
+
+<!-- Primary Metrics Grid -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem; animation: slideUp 0.8s ease-out;">
+    
+    <!-- Registered Students -->
+    <a href="{% url 'teacher:teacher-view-student' %}" style="text-decoration: none;">
+        <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 2.5rem; transition: 0.3s; position: relative; overflow: hidden; height: 100%;">
+            <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; color: rgba(99, 102, 241, 0.05); transform: rotate(-15deg);">
+                <ion-icon name="people"></ion-icon>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <ion-icon name="people-outline" style="color: #6366f1; font-size: 1.8rem;"></ion-icon>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem;">Registered Students</div>
+            <div style="font-family: 'Outfit'; font-size: 2.8rem; font-weight: 800; color: white;">{{ total_student }}</div>
+            <div style="margin-top: 1rem; color: #6366f1; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                View Candidate Directory <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+        </div>
+    </a>
+
+    <!-- Total Courses -->
+    <a href="{% url 'teacher:teacher-view-exam' %}" style="text-decoration: none;">
+        <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 2.5rem; transition: 0.3s; position: relative; overflow: hidden; height: 100%;">
+            <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; color: rgba(16, 185, 129, 0.05); transform: rotate(-15deg);">
+                <ion-icon name="layers"></ion-icon>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.1); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <ion-icon name="layers-outline" style="color: #10b981; font-size: 1.8rem;"></ion-icon>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem;">Total Exams</div>
+            <div style="font-family: 'Outfit'; font-size: 2.8rem; font-weight: 800; color: white;">{{ total_exam }}</div>
+            <div style="margin-top: 1rem; color: #10b981; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                Manage Exams <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+        </div>
+    </a>
+
+    <!-- Total Questions -->
+    <a href="{% url 'teacher:teacher-view-question' %}" style="text-decoration: none;">
+        <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 2.5rem; transition: 0.3s; position: relative; overflow: hidden; height: 100%;">
+            <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; color: rgba(245, 158, 11, 0.05); transform: rotate(-15deg);">
+                <ion-icon name="help-circle"></ion-icon>
+            </div>
+            <div style="background: rgba(245, 158, 11, 0.1); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <ion-icon name="help-circle-outline" style="color: #f59e0b; font-size: 1.8rem;"></ion-icon>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem;">Total Questions</div>
+            <div style="font-family: 'Outfit'; font-size: 2.8rem; font-weight: 800; color: white;">{{ total_question }}</div>
+            <div style="margin-top: 1rem; color: #f59e0b; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                Explore Question Bank <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+        </div>
+    </a>
+
+</div>
+
+<!-- Second Metrics Row (Inquiries) -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem; animation: slideUp 0.9s ease-out;">
+    
+    <!-- Pending Inquiries -->
+    <a href="{% url 'teacher:teacher-doubts' %}" style="text-decoration: none;">
+        <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(239, 68, 68, 0.1); border-radius: 30px; padding: 2.5rem; transition: 0.3s; position: relative; overflow: hidden; height: 100%;" onmouseover="this.style.borderColor='rgba(239, 68, 68, 0.3)'" onmouseout="this.style.borderColor='rgba(239, 68, 68, 0.1)'">
+            <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; color: rgba(239, 68, 68, 0.05); transform: rotate(-15deg);">
+                <ion-icon name="chatbubbles"></ion-icon>
+            </div>
+            <div style="background: rgba(239, 68, 68, 0.1); width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                <ion-icon name="chatbubbles-outline" style="color: #ef4444; font-size: 1.8rem;"></ion-icon>
+            </div>
+            <div style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem;">Pending Inquiries</div>
+            <div style="font-family: 'Outfit'; font-size: 2.8rem; font-weight: 800; color: white;">{{ pending_doubts }}</div>
+            <div style="margin-top: 1rem; color: #ef4444; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                Resolve Doubts Now <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+        </div>
+    </a>
+</div>
+
+<!-- Vetting Pipeline (Latest Exam Status) -->
+{% if latest_exam %}
+<div style="margin-bottom: 4rem; animation: slideUp 0.8s ease-out;">
+    <h3 style="font-family: 'Outfit'; font-weight: 800; margin-bottom: 2rem; font-size: 1.8rem; letter-spacing: -1px;">Latest Exam Status</h3>
+    <div style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 2.5rem; position: relative; overflow: hidden; border-left: 4px solid #f59e0b;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <div style="color: #94a3b8; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Recent Module Submission</div>
+                <div style="margin-bottom: 1.5rem;">
+                    <span style="color: #94a3b8; width: 120px; display: inline-block;">Exam Name</span>
+                    <span style="color: white; font-weight: 700;">: {{ latest_exam.exam_name }}</span>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <span style="color: #94a3b8; width: 120px; display: inline-block;">Created Date</span>
+                    <span style="color: white; font-weight: 700;">: {{ latest_exam.start_time|date:"d-m-Y"|default:"Just Now" }}</span>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <span style="color: #94a3b8; width: 120px; display: inline-block;">Status</span>
+                    {% if latest_exam.status == 'Pending' %}
+                    <span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 0.3rem 0.8rem; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(245, 158, 11, 0.2);">
+                        Pending Institute Approval
+                    </span>
+                    {% elif latest_exam.status == 'Approved' %}
+                    <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.3rem 0.8rem; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                        Approved & Active
+                    </span>
+                    {% else %}
+                    <span style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.3rem 0.8rem; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                        Rejected
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.03); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.05);">
+                <div style="color: #94a3b8; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">System Message</div>
+                {% if latest_exam.status == 'Pending' %}
+                <p style="color: white; font-weight: 600; font-size: 1.1rem; line-height: 1.5; margin: 0;">
+                    Your exam has been successfully created.<br>
+                    <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 400;">Waiting for institute approval.</span>
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-size: 0.85rem; font-weight: 600;">
+                    <ion-icon name="time-outline"></ion-icon> Vetting in progress...
+                </div>
+                {% elif latest_exam.status == 'Approved' %}
+                <p style="color: white; font-weight: 600; font-size: 1.1rem; line-height: 1.5; margin: 0;">
+                    Exam has been approved.<br>
+                    <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 400;">Module is now visible to candidates.</span>
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #10b981; font-size: 0.85rem; font-weight: 600;">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon> Live on platform
+                </div>
+                {% else %}
+                <p style="color: white; font-weight: 600; font-size: 1.1rem; line-height: 1.5; margin: 0;">
+                    Exam was not approved.<br>
+                    <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 400;">Please review requirements and resubmit.</span>
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #ef4444; font-size: 0.85rem; font-weight: 600;">
+                    <ion-icon name="close-circle-outline"></ion-icon> Needs attention
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Management Actions -->
+<div class="dashboard-actions">
+  <h3>Rapid Deployment</h3>
+  <div class="actions-grid">
+    <a href="#" class="action-card blue">
+      <ion-icon name="add-outline"></ion-icon>
+      <span>Add Course</span>
+    </a>
+    <a href="{% url 'teacher:create-exam' %}" class="action-card green">
+      <ion-icon name="flash-outline"></ion-icon>
+      <span>Create Exam</span>
+    </a>
+    <a href="{% url 'teacher:teacher-add-question' %}" class="action-card yellow">
+      <ion-icon name="help-outline"></ion-icon>
+      <span>Add Question</span>
+    </a>
+    <a href="{% url 'teacher:teacher-notifications' %}" class="action-card gray">
+      <ion-icon name="chatbox-outline"></ion-icon>
+      <span>Broadcast</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+{% endblock content %}

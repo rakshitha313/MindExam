@@ -1,0 +1,222 @@
+{% extends 'student/studentbase.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+.results-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* HEADER */
+.results-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.results-header h1 {
+    font-size:28px;
+    font-weight:800;
+}
+
+.back-btn {
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:10px 18px;
+    border-radius:12px;
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
+}
+
+.back-btn:hover {
+    background:#6366f1;
+}
+
+/* TABLE CARD */
+.results-card {
+    background:rgba(15,23,42,0.6);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+/* TABLE */
+.results-table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+.results-table th {
+    text-align:left;
+    padding:15px;
+    font-size:13px;
+    color:#94a3b8;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.results-table td {
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.results-table tr:hover {
+    background:rgba(255,255,255,0.03);
+}
+
+/* STATUS */
+.pass {
+    color:#10b981;
+    font-weight:600;
+}
+
+.fail {
+    color:#f43f5e;
+    font-weight:600;
+}
+
+/* DOWNLOAD */
+.download-btn {
+    background:#6366f1;
+    padding:6px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    color:white;
+    font-size:13px;
+}
+
+.download-btn:hover {
+    background:#4f46e5;
+}
+.review-btn {
+    background:#0ea5e9;
+    padding:6px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    color:white;
+    font-size:13px;
+    font-weight:600;
+}
+
+.review-btn:hover {
+    background:#0284c7;
+}
+
+.certificate-btn {
+    background:#10b981;
+    padding:6px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    color:white;
+    font-size:13px;
+    font-weight:600;
+}
+
+.certificate-btn:hover {
+    background:#059669;
+}
+
+.locked-btn {
+    color:#64748b;
+    font-size:13px;
+}
+
+</style>
+
+
+<div class="results-wrapper">
+
+    <!-- HEADER -->
+    <div class="results-header">
+        <div>
+            <h1>📊 My Results</h1>
+            <p style="color:#94a3b8;">Track your performance</p>
+        </div>
+
+        <a href="{% url 'student:student-dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+
+    <!-- TABLE -->
+    <div class="results-card">
+        <table class="results-table">
+
+            <thead>
+                <tr>
+                    <th>Exam</th>
+                    <th>Marks</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for t in results %}
+                <tr>
+                    <td><strong>{{ t.exam.exam_name }}</strong></td>
+
+                    <td>
+                        {{ t.marks }} / {{ t.exam.total_marks }}
+                    </td>
+
+                    <td>
+                        {{ t.date|date:"M d, Y" }}
+                    </td>
+
+                    <td>
+                        {% if t.marks >= t.exam.pass_marks %}
+                            <span class="pass">Passed</span>
+                        {% else %}
+                            <span class="fail">Failed</span>
+                        {% endif %}
+                    </td>
+
+                    <td style="display:flex; gap:10px; align-items:center;">
+
+    <!-- REVIEW BUTTON -->
+    <a href="{% url 'student:review-exam' t.id %}" class="btn-premium btn-secondary" style="
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    padding: 0.7rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+">
+    <ion-icon name="eye-outline"></ion-icon> Review
+</a>
+    <!-- CERTIFICATE BUTTON -->
+    {% if t.marks >= t.exam.pass_marks %}
+        <a href="{% url 'student:certificate' t.id %}" class="certificate-btn">
+            Certificate
+        </a>
+    {% else %}
+        <span class="locked-btn">Locked</span>
+    {% endif %}
+
+</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center; padding:30px;">
+                        No results yet
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

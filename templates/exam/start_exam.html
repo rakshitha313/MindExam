@@ -1,0 +1,199 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+.exam-header{
+background:#0d6efd;
+color:white;
+padding:15px;
+border-radius:8px;
+}
+
+.question-card{
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+.palette{
+position:sticky;
+top:20px;
+background:#f8f9fa;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.qbtn{
+width:40px;
+height:40px;
+margin:4px;
+}
+
+.answered{
+background:#28a745 !important;
+color:white;
+}
+
+.review{
+background:#ffc107 !important;
+}
+
+</style>
+
+<div class="container mt-4">
+
+<!-- Header -->
+<div class="exam-header d-flex justify-content-between">
+<div>
+<h4>{{ course.course_name }}</h4>
+<p>Attempt {{ attempts|add:1 }} of 3</p>
+</div>
+<div>
+⏱ Time Left: <span id="timer">05:00</span>
+</div>
+</div>
+
+<!-- Progress -->
+<div class="progress mt-3">
+<div id="progressBar" class="progress-bar bg-success" style="width:0%">0%</div>
+</div>
+
+<div class="row mt-4">
+
+<!-- Question Area -->
+<div class="col-md-9">
+<form id="examForm" method="POST" action="{% url 'calculate-marks' %}">
+{% csrf_token %}
+
+{% for q in questions %}
+<div class="card question-card" id="q{{ forloop.counter }}">
+<div class="card-body">
+<h5>Question {{ forloop.counter }}</h5>
+<p class="fw-bold">{{ q.question }}</p>
+<p class="text-muted">Marks: {{ q.marks }}</p>
+
+<div class="form-check">
+<input class="form-check-input answer" type="radio" name="{{ q.id }}" value="Option1">
+<label>{{ q.option1 }}</label>
+</div>
+<div class="form-check">
+<input class="form-check-input answer" type="radio" name="{{ q.id }}" value="Option2">
+<label>{{ q.option2 }}</label>
+</div>
+<div class="form-check">
+<input class="form-check-input answer" type="radio" name="{{ q.id }}" value="Option3">
+<label>{{ q.option3 }}</label>
+</div>
+<div class="form-check">
+<input class="form-check-input answer" type="radio" name="{{ q.id }}" value="Option4">
+<label>{{ q.option4 }}</label>
+</div>
+
+<br>
+<button type="button" class="btn btn-warning btn-sm mark-review" data-q="{{ forloop.counter }}">
+Mark for Review
+</button>
+
+</div>
+</div>
+{% endfor %}
+
+<div class="text-center">
+<button class="btn btn-success btn-lg">Submit Exam</button>
+</div>
+</form>
+</div>
+
+<!-- Question Palette -->
+<div class="col-md-3">
+<div class="palette">
+<h5>Question Palette</h5>
+{% for q in questions %}
+<a href="#q{{ forloop.counter }}">
+<button class="btn btn-outline-primary qbtn" id="nav{{ forloop.counter }}">
+{{ forloop.counter }}
+</button>
+</a>
+{% endfor %}
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+/* TIMER */
+var time = 60*5;
+var timer = setInterval(function() {
+    var m = Math.floor(time/60);
+    var s = time % 60;
+    document.getElementById("timer").innerHTML = m + ":" + (s<10 ? "0" : "") + s;
+    time--;
+    if(time < 0){
+        clearInterval(timer);
+        alert("Time up! Auto submitting.");
+        document.getElementById("examForm").submit();
+    }
+}, 1000);
+
+/* ANSWER TRACKING */
+var answers = document.querySelectorAll(".answer");
+answers.forEach(function(radio){
+    radio.addEventListener("change", function(){
+        var q = this.closest(".question-card").id.replace("q","");
+        document.getElementById("nav"+q).classList.add("answered");
+        saveAnswers();
+        updateProgress();
+    });
+});
+
+/* MARK FOR REVIEW */
+document.querySelectorAll(".mark-review").forEach(function(btn){
+    btn.addEventListener("click", function(){
+        var q = this.dataset.q;
+        document.getElementById("nav"+q).classList.add("review");
+    });
+});
+
+/* PROGRESS BAR */
+function updateProgress(){
+    var total = Number("{{ questions|length|default:0 }}"); // <- fixed
+    var answered = document.querySelectorAll(".answered").length;
+    var percent = Math.floor((answered/total)*100);
+    var bar = document.getElementById("progressBar");
+    bar.style.width = percent + "%";
+    bar.innerHTML = percent + "%";
+}
+
+/* AUTO SAVE */
+function saveAnswers(){
+    var data = {};
+    document.querySelectorAll("input[type=radio]:checked").forEach(function(r){
+        data[r.name] = r.value;
+    });
+    localStorage.setItem("examAnswers", JSON.stringify(data));
+}
+
+/* LOAD SAVED ANSWERS ON PAGE LOAD */
+window.onload = function(){
+    var saved = localStorage.getItem("examAnswers");
+    if(saved){
+        var data = JSON.parse(saved);
+        for(var key in data){
+            var radio = document.querySelector("input[name='"+key+"'][value='"+data[key]+"']");
+            if(radio){
+                radio.checked = true;
+                var q = radio.closest(".question-card").id.replace("q","");
+                document.getElementById("nav"+q).classList.add("answered");
+            }
+        }
+        updateProgress();
+    }
+};
+</script>
+{% endblock %}

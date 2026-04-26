@@ -1,0 +1,539 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MindExam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background blobs */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%;
+            left: -20%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(79,70,229,0.18) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: blobFloat 8s ease-in-out infinite alternate;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(236,72,153,0.14) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: blobFloat 10s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes blobFloat {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(40px, 30px) scale(1.08); }
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 980px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: #60a5fa;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+        }
+
+        /* Role Cards Grid */
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .role-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .role-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .role-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.07);
+        }
+
+        /* Student card */
+        .role-card.student { border-color: rgba(96, 165, 250, 0.25); }
+        .role-card.student::before { background: radial-gradient(circle at 50% 0%, rgba(96,165,250,0.1), transparent 70%); }
+        .role-card.student:hover { box-shadow: 0 20px 60px rgba(96,165,250,0.2); border-color: rgba(96,165,250,0.5); }
+        .role-card.student:hover::before { opacity: 1; }
+
+        /* Examiner card */
+        .role-card.examiner { border-color: rgba(167, 139, 250, 0.25); }
+        .role-card.examiner::before { background: radial-gradient(circle at 50% 0%, rgba(167,139,250,0.1), transparent 70%); }
+        .role-card.examiner:hover { box-shadow: 0 20px 60px rgba(167,139,250,0.2); border-color: rgba(167,139,250,0.5); }
+        .role-card.examiner:hover::before { opacity: 1; }
+
+        /* Institute card */
+        .role-card.institute { border-color: rgba(52, 211, 153, 0.25); }
+        .role-card.institute::before { background: radial-gradient(circle at 50% 0%, rgba(52,211,153,0.1), transparent 70%); }
+        .role-card.institute:hover { box-shadow: 0 20px 60px rgba(52,211,153,0.2); border-color: rgba(52,211,153,0.5); }
+        .role-card.institute:hover::before { opacity: 1; }
+
+        /* Card icon */
+        .card-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+        .student .card-icon   { background: rgba(96,165,250,0.15); color: #60a5fa; }
+        .examiner .card-icon  { background: rgba(167,139,250,0.15); color: #a78bfa; }
+        .institute .card-icon { background: rgba(52,211,153,0.15); color: #34d399; }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            color: #94a3b8;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+        }
+
+        /* Card buttons */
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-btn {
+            flex: 1;
+            padding: 0.7rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        /* Login buttons */
+        .student  .btn-login { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; }
+        .examiner .btn-login { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; }
+        .institute .btn-login { background: linear-gradient(135deg, #10b981, #06b6d4); color: white; }
+        .btn-login:hover { opacity: 0.88; transform: translateY(-1px); }
+
+        /* Register buttons */
+        .btn-register {
+            background: rgba(255,255,255,0.06);
+            color: #cbd5e1;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        .btn-register:hover {
+            background: rgba(255,255,255,0.11);
+            color: white;
+        }
+
+        /* Badge */
+        .role-badge {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .student .role-badge   { background: rgba(96,165,250,0.15); color: #60a5fa; }
+        .examiner .role-badge  { background: rgba(167,139,250,0.15); color: #a78bfa; }
+        .institute .role-badge { background: rgba(52,211,153,0.15); color: #34d399; }
+
+        /* Footer link */
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .back-link a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+        .back-link a:hover { color: #94a3b8; }
+
+        @media (max-width: 768px) {
+            .role-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 2rem; }
+            .header h1 { font-size: 2rem; }
+        }
+
+    /* LOGIN POPUP */
+    .login-container{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Card */
+.login-card{
+    width: 380px;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    text-align: center;
+    animation: pop 0.4s ease;
+}
+
+@keyframes pop{
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Header */
+.login-header ion-icon{
+    font-size: 45px;
+    color: #60a5fa;
+    margin-bottom: 10px;
+}
+
+.login-header h2{
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.login-header p{
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-box{
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.input-box ion-icon{
+    margin-right: 10px;
+    color: #94a3b8;
+}
+
+.input-box input{
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+
+/* Button */
+.login-btn{
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#6366f1,#60a5fa);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover{
+    transform: translateY(-2px);
+}
+
+/* Extra links */
+.extra-links{
+    margin-top: 15px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+.alert-msg{
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:500;
+    text-align:center;
+}
+
+/* ERROR */
+.alert-msg.error{
+    background:#ef4444;
+    color:white;
+}
+
+/* SUCCESS */
+.alert-msg.success{
+    background:#10b981;
+    color:white;
+}
+
+/* WARNING */
+.alert-msg.warning{
+    background:#f59e0b;
+    color:white;
+}
+.extra-links a{
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.extra-links a:hover{
+    text-decoration: underline;
+}
+
+/* Back button */
+.back-btn{
+    display: block;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.back-btn:hover{
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <!-- Header -->
+        <div class="header">
+            <a href="/" class="logo-link">
+                <ion-icon name="infinite-outline"></ion-icon>
+                MindExam
+            </a>
+            <h1>Welcome Back</h1>
+            <p>Select your role and sign in to continue</p>
+        </div>
+
+        <!-- 3 Role Cards -->
+        <div class="role-grid">
+
+            <!-- Student Card -->
+            <div class="role-card student">
+                <div class="card-icon">
+                    <ion-icon name="school-outline"></ion-icon>
+                </div>
+                <span class="role-badge">Learner</span>
+                <div class="card-title">Student</div>
+                <p class="card-desc">Take exams, view results, download certificates and track your academic progress.</p>
+                <div class="card-actions">
+                    <button onclick="showLogin('student')" class="card-btn btn-login">
+    Login
+</button>
+                    <a href="/student/studentsignup/" class="card-btn btn-register" id="student-register-btn">
+                        Register
+                    </a>
+                </div>
+            </div>
+
+            <!-- Examiner Card -->
+            <div class="role-card examiner">
+                <div class="card-icon">
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                <span class="role-badge">Educator</span>
+                <div class="card-title">Examiner</div>
+                <p class="card-desc">Create exams, manage questions, monitor student performance and view analytics.</p>
+                <div class="card-actions">
+                    <button onclick="showLogin('teacher')" class="card-btn btn-login">
+    Login
+</button>
+                    <a href="/teacher/teachersignup/" class="card-btn btn-register" id="examiner-register-btn">
+                        Register
+                    </a>
+                </div>
+            </div>
+
+            <!-- Institute Card -->
+            <div class="role-card institute">
+                <div class="card-icon">
+                    <ion-icon name="business-outline"></ion-icon>
+                </div>
+                <span class="role-badge">Admin</span>
+                <div class="card-title">Institute</div>
+                <p class="card-desc">Oversee all exams, approve teachers, manage courses and access institutional reports.</p>
+                <div class="card-actions">
+                    <button onclick="showLogin('admin')" class="card-btn btn-login">
+    Login
+</button>
+                    <a href="/adminsignup/" class="card-btn btn-register" id="institute-register-btn">
+                        Register
+                    </a>
+                </div>
+            </div>
+
+        </div>
+<div id="loginBox" class="login-container">
+
+    <div class="login-card">
+
+        <div class="login-header">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue your journey</p>
+        </div>
+<!-- ✅ DJANGO MESSAGES -->
+{% if messages %}
+  {% for message in messages %}
+    <div style="
+        background: {% if message.tags == 'error' %}#ef4444{% else %}#10b981{% endif %};
+        color:white;
+        padding:10px;
+        border-radius:8px;
+        margin-bottom:10px;
+        text-align:center;
+        font-size:14px;">
+        {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <input type="hidden" name="role" id="roleInput">
+
+            <div class="input-box">
+                <ion-icon name="person-outline"></ion-icon>
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <ion-icon name="key-outline"></ion-icon>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+            
+        </form>
+
+        <div class="extra-links">
+            <p>Don’t have an account?</p>
+
+            <a href="/student/studentsignup/">Student Register</a> |
+            <a href="/teacher/teachersignup/">Teacher Register</a> |
+            <a href="/adminsignup/">Institute Register</a>
+        </div>
+
+        <a href="/" class="back-btn">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+ 
+<script>
+function showLogin(role) {
+    document.getElementById("loginBox").style.display = "flex";
+    document.getElementById("roleInput").value = role;
+}
+
+/* ✅ KEEP POPUP OPEN IF ERROR EXISTS */
+{% if messages %}
+    document.getElementById("loginBox").style.display = "flex";
+{% endif %}
+</script>
+</body>
+</html>

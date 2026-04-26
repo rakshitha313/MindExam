@@ -1,0 +1,155 @@
+{% extends 'exam/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div style="max-width: 900px; margin: 0 auto; animation: slideUp 0.8s ease-out;">
+    
+    <!-- Form Header -->
+    <div style="margin-bottom: 3.5rem; text-align: center;">
+        <div style="background: rgba(99, 102, 241, 0.1); color: #6366f1; padding: 0.5rem 1.2rem; border-radius: 100px; display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;">
+            Institutional Authorship
+        </div>
+        <h1 style="font-family: 'Outfit'; font-size: 2.8rem; font-weight: 800; margin: 0; letter-spacing: -1px;">Author New Unit</h1>
+        <p style="color: #64748b; font-size: 1.1rem; margin-top: 0.5rem;">Generating high-integrity assessment items for the institutional item bank.</p>
+    </div>
+
+    <!-- Glassmorphism Form Panel -->
+    <div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; padding: 4rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            
+            <div style="display: grid; gap: 2.5rem;">
+                
+                <!-- Exam Selection -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <div>
+                        <label class="custom-label">Target Certification Track</label>
+                        {% render_field questionForm.exam class="custom-input selekt" %}
+                    </div>
+                    <div>
+                        <label class="custom-label">Valuation (Marks)</label>
+                        {% render_field questionForm.marks class="custom-input" placeholder="e.g. 5" %}
+                    </div>
+                </div>
+
+                <!-- The Question -->
+                <div>
+                    <label class="custom-label">Assessment Item (Question)</label>
+                    {% render_field questionForm.question class="custom-input" placeholder="Enter the primary assessment query..." %}
+                </div>
+
+                <!-- Options Grid -->
+                <div>
+                    <label class="custom-label">Option Architecture</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 1.2rem; top: 1.1rem; color: #6366f1; font-weight: 800; font-size: 0.8rem;">A</span>
+                            {% render_field questionForm.option1 class="custom-input opt-padding" placeholder="First candidate choice" %}
+                        </div>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 1.2rem; top: 1.1rem; color: #6366f1; font-weight: 800; font-size: 0.8rem;">B</span>
+                            {% render_field questionForm.option2 class="custom-input opt-padding" placeholder="Second candidate choice" %}
+                        </div>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 1.2rem; top: 1.1rem; color: #6366f1; font-weight: 800; font-size: 0.8rem;">C</span>
+                            {% render_field questionForm.option3 class="custom-input opt-padding" placeholder="Third candidate choice" %}
+                        </div>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 1.2rem; top: 1.1rem; color: #6366f1; font-weight: 800; font-size: 0.8rem;">D</span>
+                            {% render_field questionForm.option4 class="custom-input opt-padding" placeholder="Fourth candidate choice" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validation Logic -->
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+                    <div>
+                        <label class="custom-label">Validation Logic (Answer)</label>
+                        {% render_field questionForm.answer class="custom-input selekt" %}
+                    </div>
+                    <div>
+                        <label class="custom-label">Expert Explanation (Optional)</label>
+                        {% render_field questionForm.explanation class="custom-input" placeholder="Rationale for the correct validation..." %}
+                    </div>
+                </div>
+
+                <!-- Action Hub -->
+                <div style="margin-top: 1rem;">
+                    <button type="submit" style="width: 100%; background: #6366f1; color: white; border: none; padding: 1.2rem; border-radius: 16px; font-family: 'Outfit'; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center; gap: 0.8rem;">
+                        <ion-icon name="cloud-upload-outline" style="font-size: 1.4rem;"></ion-icon> Commit to Item Bank
+                    </button>
+                    <p style="text-align: center; color: #475569; font-size: 0.8rem; margin-top: 1.5rem; font-weight: 500;">
+                        This item will be immediately available for selection in the designated track.
+                    </p>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .custom-label {
+        display: block; 
+        color: #94a3b8; 
+        font-size: 0.75rem; 
+        font-weight: 800; 
+        text-transform: uppercase; 
+        letter-spacing: 1.5px; 
+        margin-bottom: 0.8rem;
+    }
+
+    .custom-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 1.1rem 1.4rem;
+        color: white;
+        font-family: 'Inter';
+        font-size: 0.95rem;
+        transition: 0.3s;
+        outline: none;
+    }
+
+    .selekt {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='flex 19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.2em;
+    }
+
+    .opt-padding {
+        padding-left: 2.8rem;
+    }
+
+    .custom-input:focus {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .custom-input::placeholder {
+        color: #475569;
+    }
+
+    @keyframes slideUp { 
+        from { opacity: 0; transform: translateY(30px); } 
+        to { opacity: 1; transform: translateY(0); } 
+    }
+    select {
+    background-color: #1e293b;
+    color: white;
+    border: 1px solid #475569;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+select option {
+    color: black;   /* important */
+}
+</style>
+
+{% endblock content %}

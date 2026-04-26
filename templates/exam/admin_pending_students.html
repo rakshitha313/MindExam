@@ -1,0 +1,108 @@
+{% extends 'exam/adminbase.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-primary">Pending Student Approvals</h2>
+        <p class="text-muted">Students waiting for admin approval</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="row g-4">
+
+        {% for s in students %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-lg rounded-4 p-3 h-100 hover-card">
+
+                <!-- TOP SECTION -->
+                <div class="d-flex align-items-center mb-3">
+
+                    <!-- Avatar -->
+                    <div class="avatar me-3">
+                        {{ s.user.first_name|first|upper }}{{ s.user.last_name|first|upper }}
+                    </div>
+
+                    <!-- Name -->
+                    <div>
+                        <h6 class="mb-0 fw-bold">
+                            {{ s.user.first_name }} {{ s.user.last_name }}
+                        </h6>
+                        <small class="text-muted">USN: {{ s.usn }}</small>
+                    </div>
+
+                </div>
+
+                <!-- INFO -->
+                <div class="mb-3">
+                    <p class="mb-1 text-muted">
+                        📞 {{ s.mobile }}
+                    </p>
+
+                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
+                        Pending
+                    </span>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="d-flex gap-2 mt-auto">
+
+                    <a href="{% url 'approve-student' s.id %}"
+                       class="btn btn-success btn-sm w-50 rounded-pill">
+                        ✔ Approve
+                    </a>
+
+                    <a href="{% url 'reject-student' s.id %}"
+                       class="btn btn-outline-danger btn-sm w-50 rounded-pill">
+                        ✖ Reject
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="text-center text-muted py-5">
+            <h5>No pending students found</h5>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.hover-card{
+    transition:0.3s ease;
+    border:1px solid #eee;
+}
+
+.hover-card:hover{
+    transform: translateY(-5px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+</style>
+
+{% endblock %}

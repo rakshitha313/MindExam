@@ -1,0 +1,103 @@
+{% extends 'exam/adminbase.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div style="max-width:700px;margin:auto;animation:fadeIn 0.6s ease;">
+
+    <!-- HEADER -->
+    <div style="text-align:center;margin-bottom:30px;">
+        <h2 style="font-family:'Outfit';font-size:28px;font-weight:800;">
+            🌿 Manage Branches
+        </h2>
+        <p style="color:#64748b;">
+            Create and manage institution branches (CSE, ECE, etc.)
+        </p>
+    </div>
+
+    <!-- ADD BRANCH FORM -->
+    <div style="
+        background:rgba(15,23,42,0.7);
+        backdrop-filter:blur(20px);
+        border-radius:20px;
+        padding:30px;
+        box-shadow:0 20px 50px rgba(0,0,0,0.4);
+        margin-bottom:30px;
+    ">
+        <form method="POST">
+            {% csrf_token %}
+
+            <label style="font-size:13px;font-weight:600;color:#cbd5e1;">
+                Branch Name
+            </label>
+
+            {% render_field form.name class="custom-input" placeholder="e.g. Computer Science" %}
+
+            <button type="submit" style="
+                margin-top:15px;
+                width:100%;
+                padding:12px;
+                background:linear-gradient(135deg,#6366f1,#4f46e5);
+                border:none;
+                color:white;
+                border-radius:12px;
+                font-weight:700;
+                cursor:pointer;
+            ">
+                ➕ Add Branch
+            </button>
+        </form>
+    </div>
+
+    <!-- LIST OF BRANCHES -->
+    <div style="
+        background:rgba(15,23,42,0.6);
+        border-radius:20px;
+        padding:25px;
+    ">
+        <h3 style="margin-bottom:15px;">📚 Existing Branches</h3>
+
+        {% if branches %}
+            <ul style="list-style:none;padding:0;">
+                {% for b in branches %}
+                <li style="
+                    padding:10px 15px;
+                    margin-bottom:10px;
+                    border-radius:12px;
+                    background:rgba(255,255,255,0.05);
+                ">
+                    {{ b.name }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:gray;">No branches added yet</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<style>
+.custom-input {
+    width:100%;
+    padding:10px 12px;
+    margin-top:5px;
+    border-radius:10px;
+    border:none;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    outline:none;
+}
+
+.custom-input:focus {
+    border:1px solid #6366f1;
+    background:rgba(255,255,255,0.15);
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(10px);}
+    to {opacity:1; transform:translateY(0);}
+}
+</style>
+
+{% endblock %}

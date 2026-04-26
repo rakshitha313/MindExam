@@ -1,0 +1,46 @@
+{% extends 'student/studentbase.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>Exam Result</h2>
+
+<h4>Total Marks: {{ total_marks }}</h4>
+
+<table class="table table-bordered">
+
+<tr>
+<th>Question</th>
+<th>Your Answer</th>
+<th>Correct Answer</th>
+<th>Status</th>
+</tr>
+
+{% for r in review %}
+
+<tr>
+
+<td>{{ r.question }}</td>
+
+<td>{{ r.selected }}</td>
+
+<td>{{ r.correct }}</td>
+
+<td>
+{% if r.status == "Correct" %}
+<span style="color:green;">Correct</span>
+{% else %}
+<span style="color:red;">Wrong</span>
+{% endif %}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}
