@@ -45,7 +45,9 @@ class Admin(models.Model):
 # Course Model
 # ============================
 class Branch(models.Model):
+    
     name = models.CharField(max_length=100)
+       # 👈 add this
 
     def __str__(self):
         return self.name
