@@ -308,14 +308,17 @@ def verify_exam_access(request, pk):
 @user_passes_test(is_student, login_url='login')
 def take_exam_view(request, pk):
 
+    # 🔹 Get student
     student = Student.objects.filter(user=request.user).first()
     if not student:
         return redirect('login')
 
+    # 🔹 Check branch & course assigned
     if not student.branch or not student.course:
         messages.error(request, "Your branch or course is not assigned.")
         return redirect('student:student-dashboard')
 
+    # 🔹 Get exam only if allowed
     exam = QMODEL.Exam.objects.filter(
         id=pk,
         status='Approved',
@@ -327,8 +330,19 @@ def take_exam_view(request, pk):
         messages.error(request, "You are not allowed to access this exam.")
         return redirect('student:student-dashboard')
 
+    # 🔹 Count attempts
     attempts = Result.objects.filter(student=student, exam=exam).count()
 
+    # 🔴 MAX ATTEMPT LIMIT
+    if attempts >= 3:
+        messages.error(request, "❌ You reached maximum attempts.")
+        return redirect('student:student-dashboard')
+
+    # ⚠️ If already attempted (but still allowed attempts)
+    if attempts > 0:
+        messages.warning(request, f"⚠️ You already attempted this exam {attempts} time(s).")
+
+    # ✅ Allow exam
     return redirect('student:start_exam', pk=exam.id)
 @login_required(login_url='login')
 @user_passes_test(is_student, login_url='login')
@@ -347,9 +361,10 @@ def calculate_marks_view(request):
     student = get_object_or_404(Student, user=request.user)
 
     # 🔥 IMPORTANT: prevent duplicate submission
-    if Result.objects.filter(student=student, exam=exam).exists():
-        messages.error(request, "You already submitted this exam.")
-        return redirect('student:student-dashboard')
+    existing = Result.objects.filter(student=student, exam=exam).first()
+    if existing:
+        print("Already attempted → redirecting to result page")
+        return redirect('student:check-marks', pk=existing.id)
 
     question_ids = request.session.get('question_ids', [])
 
@@ -364,7 +379,7 @@ def calculate_marks_view(request):
 
         if selected == q.answer:
             total_marks += q.marks
-
+       
         StudentAnswer.objects.create(
             student=student,
             exam=exam,
@@ -382,7 +397,7 @@ def calculate_marks_view(request):
     # cleanup session
     request.session.pop('exam_id', None)
     request.session.pop('question_ids', None)
-
+    print("Redirecting to result:", result.id)
     return redirect('student:check-marks', pk=result.id)
 @login_required(login_url='login')
 @user_passes_test(is_student, login_url='login')

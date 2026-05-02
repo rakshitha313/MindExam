@@ -438,7 +438,7 @@
                     <button onclick="showLogin('teacher')" class="card-btn btn-login">
     Login
 </button>
-                    <a href="/teacher/teachersignup/" class="card-btn btn-register" id="examiner-register-btn">
+                    <a href="{% url 'teacher:teachersignup' %}" class="card-btn btn-register" id="examiner-register-btn">
                         Register
                     </a>
                 </div>
@@ -512,7 +512,7 @@
             <p>Don’t have an account?</p>
 
             <a href="/student/studentsignup/">Student Register</a> |
-            <a href="/teacher/teachersignup/">Teacher Register</a> |
+            <a href="{% url 'teacher:teachersignup' %}">Teacher Register</a> |
             <a href="/adminsignup/">Institute Register</a>
         </div>
 

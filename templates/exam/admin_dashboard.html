@@ -24,7 +24,7 @@
     </a>
 
     <!-- Teachers -->
-    <a href="/admin-teacher" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+    <a href="{% url 'admin-teacher' %}" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(16, 185, 129, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
         <div style="background: rgba(16, 185, 129, 0.1); color: #10b981; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
             <ion-icon name="pencil-outline" style="font-size: 1.8rem;"></ion-icon>
         </div>
@@ -33,7 +33,7 @@
     </a>
 
     <!-- Courses -->
-    <a href="/admin-course" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(245, 158, 11, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+    <a href="{% url 'admin-course' %}" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(245, 158, 11, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
         <div style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
             <ion-icon name="layers-outline" style="font-size: 1.8rem;"></ion-icon>
         </div>
@@ -42,7 +42,9 @@
     </a>
 
     <!-- Questions -->
-    <a href="/admin-question" style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(244, 63, 94, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
+    <a href="{% url 'admin-question' %}"
+    
+style="text-decoration: none; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2rem; transition: 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(244, 63, 94, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.08)'">
         <div style="background: rgba(244, 63, 94, 0.1); color: #f43f5e; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
             <ion-icon name="file-tray-full-outline" style="font-size: 1.8rem;"></ion-icon>
         </div>
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <h3 style="font-family: 'Outfit'; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">Vetting Queue</h3>
             <p style="color: #64748b; margin: 0;">Pending assessment registrations requiring administrative validation.</p>
         </div>
-        <a href="/admin-view-pending-exams" style="color: #6366f1; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+        <a href="{% url 'admin-view-pending-exams' %}" style="color: #6366f1; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
             View Extended Queue <ion-icon name="arrow-forward-outline"></ion-icon>
         </a>
     </div>

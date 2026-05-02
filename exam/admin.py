@@ -3,7 +3,7 @@ from .models import Course, Question, Result, Exam
 from student.models import Notification, Student
 from django.contrib import admin
 from .models import Admin
-
+from .models import Branch
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('student', 'exam', 'marks', 'date')
 
@@ -26,4 +26,5 @@ admin.site.register(Admin)
 admin.site.register(Result, ResultAdmin)
 admin.site.register(Course)
 admin.site.register(Question)
+admin.site.register(Branch)
 admin.site.register(Exam, ExamAdmin)

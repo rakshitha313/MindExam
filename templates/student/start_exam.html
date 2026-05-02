@@ -470,7 +470,7 @@ text-align: center;
 <aside class="exam-sidebar">
     <div id="palette"></div>
 
-    <button class="finish-btn" onclick="submitExam()">
+    <button type="button" class="finish-btn" onclick="submitExam()">
     <ion-icon name="flag-outline"></ion-icon>
     Finish Exam
 </button>
@@ -478,7 +478,7 @@ text-align: center;
 
 </main>
 
-<form id="examForm" action="/student/calculate-marks/" method="post" style="display:none">
+<form id="examForm" action="{% url 'student:calculate-marks' %}" method="post" style="display:none;">
     {% csrf_token %}
 </form>
 <script>
@@ -545,14 +545,14 @@ function startExam() {
     // 🔴 NOT STARTED
     if (now < examStartTime) {
         alert("⏳ Exam has not started yet!");
-        window.location.href = "/student/exam/";
+        window.location.href = "{% url 'student:student-exam' %}";
         return;
     }
 
     // 🔴 EXPIRED
     if (now > examEndTime) {
         alert("⛔ Exam time is over!");
-        window.location.href = "/student/exam/";
+        window.location.href = "{% url 'student:student-exam' %}";
         return;
     }
 
@@ -724,10 +724,15 @@ document.addEventListener("keydown", function(e) {
 });
 
 /* ================= SUBMIT ================= */
+
 let submitted = false;
 
 function submitExam() {
     if (submitted) return;
+
+    let confirmSubmit = confirm("Are you sure you want to finish the exam?");
+    if (!confirmSubmit) return;
+
     submitted = true;
 
     const form = document.getElementById("examForm");
@@ -735,13 +740,15 @@ function submitExam() {
     Object.keys(answers).forEach(qid => {
         let input = document.createElement("input");
         input.type = "hidden";
-        input.name = `${qid}`;
+        input.name = qid;
         input.value = answers[qid];
         form.appendChild(input);
     });
 
+    console.log("Submitting exam...");
     form.submit();
 }
 </script>
+
 </body>
 </html>
