@@ -1,18 +1,22 @@
 # MindExam – Online Examination System
 
-MindExam is a Django-based Online Examination System with Admin, Teacher, and Student roles.
+MindExam is a Django-based Online Examination System with Institution, Examiner, and Student roles.
 
 ## Features
-- Admin, Teacher, and Student login
-- Institution-based access
-- Student registration and admin approval
-- Teacher exam creation
-- Question management
-- Exam attempt system
-- Automated result calculation
+- Institution, Examiner, and Student authentication
+- Institution-based access control
+- Student registration and approval system
+- Examiner exam creation and management
+- MCQ question management
+- Exam publishing using unique links
+- Public exam participation
+- Automated result generation
 - Certificate generation
 - Leaderboard and analytics
-- Anti-cheating features like fullscreen mode and tab-switch detection
+- Anti-cheating features:
+  - Fullscreen mode
+  - Tab switch detection
+  - Copy-paste restriction
 
 ## Tech Stack
 - Python
@@ -26,7 +30,7 @@ MindExam is a Django-based Online Examination System with Admin, Teacher, and St
 ## How to Run
 
 ```bash
-git clone https://github.com/rakshitha313/mindexam-platform.git
-cd mindexam-platform
+git clone https://github.com/rakshitha313/MindExam.git
+cd MindExam
 pip install -r requirements.txt
 python manage.py runserver
