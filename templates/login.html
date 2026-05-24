@@ -389,7 +389,12 @@
 .back-btn:hover{
     color: white;
 }
-
+.password-toggle{
+    cursor:pointer;
+    color:#94a3b8;
+    font-size:20px;
+    margin-left:8px;
+}
     </style>
 </head>
 <body>
@@ -420,7 +425,7 @@
                     <button onclick="showLogin('student')" class="card-btn btn-login">
     Login
 </button>
-                    <a href="/student/studentsignup/" class="card-btn btn-register" id="student-register-btn">
+                    <a href="{% url 'student:studentsignup' %}" class="card-btn btn-register" id="student-register-btn">
                         Register
                     </a>
                 </div>
@@ -456,7 +461,7 @@
                     <button onclick="showLogin('admin')" class="card-btn btn-login">
     Login
 </button>
-                    <a href="/adminsignup/" class="card-btn btn-register" id="institute-register-btn">
+                    <a href="{% url 'adminsignup' %}" class="card-btn btn-register" id="institute-register-btn">
                         Register
                     </a>
                 </div>
@@ -498,9 +503,21 @@
             </div>
 
             <div class="input-box">
-                <ion-icon name="key-outline"></ion-icon>
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
+    <ion-icon name="key-outline"></ion-icon>
+
+    <input type="password"
+           id="password"
+           name="password"
+           placeholder="Password"
+           required>
+
+    <ion-icon
+        name="eye-outline"
+        id="togglePassword"
+        class="password-toggle"
+        onclick="togglePassword()">
+    </ion-icon>
+</div>
 
             <button type="submit" class="login-btn">
                 Login
@@ -511,9 +528,9 @@
         <div class="extra-links">
             <p>Don’t have an account?</p>
 
-            <a href="/student/studentsignup/">Student Register</a> |
+             <a href="{% url 'student:studentsignup' %}">Student Register</a> |
             <a href="{% url 'teacher:teachersignup' %}">Teacher Register</a> |
-            <a href="/adminsignup/">Institute Register</a>
+            <a href="{% url 'adminsignup' %}">Institute Register</a>
         </div>
 
         <a href="/" class="back-btn">
@@ -534,6 +551,21 @@ function showLogin(role) {
 {% if messages %}
     document.getElementById("loginBox").style.display = "flex";
 {% endif %}
+
+function togglePassword(){
+
+    const password = document.getElementById("password");
+    const icon = document.getElementById("togglePassword");
+
+    if(password.type === "password"){
+        password.type = "text";
+        icon.setAttribute("name", "eye-off-outline");
+    } else {
+        password.type = "password";
+        icon.setAttribute("name", "eye-outline");
+    }
+}
 </script>
+
 </body>
 </html>
